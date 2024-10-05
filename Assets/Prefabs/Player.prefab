@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 797695277531245198}
   - component: {fileID: 9107325421598945045}
   - component: {fileID: 824769401506594509}
-  - component: {fileID: 8229997512426299616}
-  - component: {fileID: 5863933549297221593}
   - component: {fileID: 3637030279242756599}
   m_Layer: 0
   m_Name: Player
@@ -71,37 +69,6 @@ MonoBehaviour:
   cardOffset: 1.6
   selectedOffset: 1.1
   angle: -10
---- !u!114 &8229997512426299616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154287133257185105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318a8119410e345549ac1d0fab7416ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  startCardsCount: 1
-  cardsPerTurn: 3
---- !u!114 &5863933549297221593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154287133257185105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afff0845afb3a4765b79896e04c2adba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 30
-  health: 0
-  maxMana: 3
-  mana: 0
 --- !u!114 &3637030279242756599
 MonoBehaviour:
   m_ObjectHideFlags: 0

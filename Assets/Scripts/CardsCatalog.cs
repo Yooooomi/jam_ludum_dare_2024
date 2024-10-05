@@ -33,48 +33,11 @@ public class CardInfo
 {
     public Texture2D image;
     public string name;
-    public CardStats stats;
+    public GameCardStats stats;
     public int count;
     public string description;
     public CardType cardType;
     public CardBehaviorType cardBehaviorType;
-}
-
-public class PlayerDeck
-{
-    public PlayerDeck(CardsCatalog catalog)
-    {
-        catalog_ = catalog;
-        ResetDeck();
-    }
-
-    public CardInfo PickCard()
-    {
-        if (cards_.Count == 0)
-        {
-            ResetDeck();
-        }
-        int index = UnityEngine.Random.Range(0, cards_.Count);
-        CardInfo pickedCard = cards_[index];
-        cards_.RemoveAt(index);
-        return pickedCard;
-    }
-
-    private void ResetDeck()
-    {
-        cards_ = new List<CardInfo>();
-        foreach (CardInfo card in catalog_.cardInfos)
-        {
-            for (int i = 0; i < card.count; i++)
-            {
-                cards_.Add(card);
-            }
-        }
-    }
-
-
-    private List<CardInfo> cards_;
-    private CardsCatalog catalog_;
 }
 
 public class CardsCatalog : MonoBehaviour

@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Events;
 
 public class GameOnPlaced : UnityEvent<GameCard> { }
@@ -12,7 +11,7 @@ public class GameOnAttack : UnityEvent<GameCard> { }
 public class GameOnCardUpdate : UnityEvent<GameCard> { }
 public class GameOnPlayerDrawCard : UnityEvent<GameCard> { }
 
-public class GameBridge : MonoBehaviour
+public class GameBridge
 {
     public GameOnPlaced onPlaced = new();
     public GameOnKilled onKilled = new();

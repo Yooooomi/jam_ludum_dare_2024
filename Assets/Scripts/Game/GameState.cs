@@ -2,17 +2,23 @@ using System.Collections.Generic;
 
 public class GameState
 {
-    public static GameState instance = new();
+    public static GameState instance;
+    public static void InitGameState(CardsCatalog catalog)
+    {
+        instance = new GameState(catalog);
+    }
     public List<GamePlayer> players = new();
 
     private int playerTurn = 0;
+    private CardsCatalog catalog;
 
-    public GameState()
+    public GameState(CardsCatalog catalog)
     {
+        this.catalog = catalog;
         int id = 0;
-        players.Add(new GamePlayer(id));
+        players.Add(new GamePlayer(id, catalog));
         id += 1;
-        players.Add(new GamePlayer(id));
+        players.Add(new GamePlayer(id, catalog));
     }
 
     public void EndTurn()

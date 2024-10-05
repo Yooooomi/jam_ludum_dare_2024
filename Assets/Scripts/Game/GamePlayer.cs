@@ -1,15 +1,32 @@
+using System.Collections.Generic;
+
 public class GamePlayer
 {
     public readonly int id;
     public readonly GamePlayerStats stats;
-    public readonly GamePlayerDeck deck = new();
+    public readonly GamePlayerDeck deck;
     public readonly GameBoard board;
+    public readonly List<GameCard> hand = new();
 
-    public GamePlayer(int id)
+    public GamePlayer(int id, CardsCatalog catalog)
     {
+        deck = new GamePlayerDeck(id, catalog);
         this.id = id;
         stats = new GamePlayerStats();
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
+    }
+
+    public bool Has(GameCard card)
+    {
+        return hand.Contains(card);
+    }
+
+    public void DrawCards(int amount)
+    {
+        for (int i = 0; i < amount; i += 1)
+        {
+            hand.Add(deck.DrawCard());
+        }
     }
 
     public void OnTurnBegin(int playerId)
@@ -18,7 +35,7 @@ public class GamePlayer
         {
             return;
         }
-        deck.DrawCards();
+        DrawCards(2);
         stats.mana = stats.maxMana;
     }
 
@@ -34,7 +51,7 @@ public class GamePlayer
 
     public bool PlayCard(GameBoardTile tile, GameCard card)
     {
-        if (!deck.Has(card))
+        if (!Has(card))
         {
             return false;
         }

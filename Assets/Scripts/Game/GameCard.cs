@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public struct GameCardStats
 {
     public int maxHealth;
@@ -19,9 +20,10 @@ public class GameCard
     private int lifetime;
     private int lastLifetimeAttack;
 
-    public GameCard()
+    public GameCard(GameCardStats stats)
     {
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
+        this.stats = stats;
     }
 
     protected bool IsSelf(GameCard other)
