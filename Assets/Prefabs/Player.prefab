@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ccb8a8dffe04be1ac564fa29761d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handYOffset: 2
   cardOffset: 1.6
   selectedOffset: 1.1
   angle: -10
@@ -159,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3334957515638075944, guid: ea944520683833c40aa05dcdba526935, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3334957515638075944, guid: ea944520683833c40aa05dcdba526935, type: 3}
       propertyPath: m_LocalPosition.z

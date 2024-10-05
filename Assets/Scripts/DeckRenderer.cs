@@ -3,6 +3,8 @@ using UnityEngine;
 public class DeckRenderer : MonoBehaviour
 {
     [SerializeField]
+    private float handYOffset;
+    [SerializeField]
     private float cardOffset;
     [SerializeField]
     private float selectedOffset;
@@ -33,7 +35,7 @@ public class DeckRenderer : MonoBehaviour
 
             var position = new Vector3(
                 deckHandPosition.x + i * cardOffset - center,
-                0,
+                handYOffset,
                 deckHandPosition.z + height
             );
             var rotation = Quaternion.Euler(0, 0, finalAngle);
@@ -50,7 +52,7 @@ public class DeckRenderer : MonoBehaviour
             {
                 continue;
             }
-            var offsetWithTile = new Vector3(0, 0.02f, 0);
+            var offsetWithTile = new Vector3(0, 0.1f, 0);
             card.GetComponent<CardPositionAnimation>().GoTo(tile.transform.position + offsetWithTile, Quaternion.identity);
         }
     }

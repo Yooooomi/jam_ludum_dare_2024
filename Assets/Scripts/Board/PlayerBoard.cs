@@ -48,7 +48,7 @@ public class PlayerBoard : MonoBehaviour
 
     public bool CanPlaceCard(BoardTile tile, CardBehavior card)
     {
-        return tile.card != null;
+        return tile.card == null;
     }
 
     public void PlaceCard(BoardTile tile, CardBehavior card)

@@ -18,15 +18,6 @@ public class PlayerStats : MonoBehaviour
         health = maxHealth;
     }
 
-    private void OnPlaced(CardBehavior card)
-    {
-        if (card.playerId != player.id)
-        {
-            return;
-        }
-        mana -= card.stats.mana;
-    }
-
     private void OnTurnBegin(int playerId)
     {
         if (player.id != playerId)

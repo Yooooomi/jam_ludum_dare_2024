@@ -69,7 +69,7 @@ public class Deck : MonoBehaviour
                 ChangeCardSelection(null);
                 return;
             }
-            if (!playerStats.ConsumeMana(selectedCard.card.stats.mana))
+            if (!playerStats.ConsumeMana(selectedCard.card.GetCardStats().mana))
             {
                 return;
             }
@@ -92,6 +92,10 @@ public class Deck : MonoBehaviour
 
     public void Select(CardBehavior card)
     {
+        if (!GameState.instance.MyTurn(playerId))
+        {
+            return;
+        }
         var ourBoardTile = ourBoard.GetCardTile(card);
         if (ourBoardTile != null)
         {
@@ -115,7 +119,14 @@ public class Deck : MonoBehaviour
             return;
         }
 
-        ChangeCardSelection(new SelectedCard(SelectedCard.Location.HAND, card));
+        if (selectedCard != null && selectedCard.card == card)
+        {
+            ChangeCardSelection(null);
+        }
+        else if (hand.Contains(card))
+        {
+            ChangeCardSelection(new SelectedCard(SelectedCard.Location.HAND, card));
+        }
     }
 
     public void DrawCards(int count)

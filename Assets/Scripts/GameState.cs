@@ -29,6 +29,10 @@ public class GameState : MonoBehaviour
         EndTurn();
     }
 
+    public bool MyTurn(int playerId) {
+        return playerTurn == playerId;
+    }
+
     public void EndTurn()
     {
         var player = players[playerTurn];
