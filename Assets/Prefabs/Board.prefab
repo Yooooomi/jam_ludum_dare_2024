@@ -1185,7 +1185,7 @@ MonoBehaviour:
   boardTile: {fileID: 3751937250624939022, guid: c4fb35cf3a808c54a97e3148b5654dbf, type: 3}
   tileContainer: {fileID: 1499399285177574191}
   boardSize: {x: 4, y: 2}
-  tilePadding: {x: 0.75, y: 1}
+  tilePadding: {x: 2.4, y: 3.2}
 --- !u!1 &7525278369416070120
 GameObject:
   m_ObjectHideFlags: 0
