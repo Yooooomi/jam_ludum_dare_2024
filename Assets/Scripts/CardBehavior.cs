@@ -27,6 +27,11 @@ public abstract class CardBehavior : MonoBehaviour
 
     public UnityEvent onStatChanged = new();
 
+    private void Start()
+    {
+        GameState.instance.onPlaced.AddListener(OnPlaced);
+    }
+
     private CardStats ComputeCardStats()
     {
         CardStats cloned = stats;
@@ -72,6 +77,7 @@ public abstract class CardBehavior : MonoBehaviour
 
     public bool Attack(CardBehavior target)
     {
+        GameState.instance.onAttack.Invoke(this);
         var killed = target.LoseHealth(stats.damage);
         lastLifetimeAttack = lifetime;
         return killed;
@@ -79,9 +85,17 @@ public abstract class CardBehavior : MonoBehaviour
 
     public bool LoseHealth(int damage)
     {
+        Debug.Log($"I am losing {damage} HP {playerId}");
         mutableStats.health = Mathf.Clamp(mutableStats.health - damage, 0, mutableStats.maxHealth);
-        Destroy(gameObject);
-        GameState.instance.SendMessage("OnKilled", this);
+        if (mutableStats.health <= 0)
+        {
+            GameState.instance.onKilled.Invoke(this);
+            Destroy(gameObject);
+        }
+        else
+        {
+            GameState.instance.onDamageTaken.Invoke(this);
+        }
         onStatChanged.Invoke();
         return mutableStats.health < 0;
     }
@@ -99,6 +113,15 @@ public abstract class CardBehavior : MonoBehaviour
 
     protected virtual void OnPlaced(CardBehavior card)
     {
+        if (card != this)
+        {
+            return;
+        }
+        GameState.instance.onKilled.AddListener(OnKilled);
+        GameState.instance.onTurnBegin.AddListener(OnTurnBegin);
+        GameState.instance.onTurnEnd.AddListener(OnTurnEnd);
+        GameState.instance.onDamageTaken.AddListener(OnDamageTaken);
+        GameState.instance.onAttack.AddListener(OnAttack);
         Debug.Log("OnPlaced");
     }
 
@@ -117,7 +140,7 @@ public abstract class CardBehavior : MonoBehaviour
         Debug.Log("OnTurnBegin");
     }
 
-    protected virtual void OnTurnEnd()
+    protected virtual void OnTurnEnd(int playedId)
     {
         Debug.Log("OnTurnEnd");
     }

@@ -1,9 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+public class OnPlaced : UnityEvent<CardBehavior> { }
+public class OnKilled : UnityEvent<CardBehavior> { }
+public class OnTurnBegin : UnityEvent<int> { }
+public class OnTurnEnd : UnityEvent<int> { }
+// victim
+public class OnDamageTaken : UnityEvent<CardBehavior> { }
+// from
+public class OnAttack : UnityEvent<CardBehavior> { }
 
 public class GameState : MonoBehaviour
 {
     public static GameState instance;
+
+    public OnPlaced onPlaced = new();
+    public OnKilled onKilled = new();
+    public OnTurnBegin onTurnBegin = new();
+    public OnTurnEnd onTurnEnd = new();
+    public OnDamageTaken onDamageTaken = new();
+    public OnAttack onAttack = new();
 
     private void Awake()
     {
@@ -29,16 +46,24 @@ public class GameState : MonoBehaviour
         EndTurn();
     }
 
-    public bool MyTurn(int playerId) {
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.Space))
+        {
+            return;
+        }
+        EndTurn();
+    }
+
+    public bool MyTurn(int playerId)
+    {
         return playerTurn == playerId;
     }
 
     public void EndTurn()
     {
-        var player = players[playerTurn];
-        player.SendMessage("OnTurnEnd", playerTurn);
+        onTurnEnd.Invoke(playerTurn);
         playerTurn = (playerTurn + 1) % 2;
-        var nextPlayer = players[playerTurn];
-        nextPlayer.SendMessage("OnTurnBegin", playerTurn);
+        onTurnBegin.Invoke(playerTurn);
     }
 }

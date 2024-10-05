@@ -1,4 +1,3 @@
-
 public class Roger : CardBehavior
 {
     private CardStats Modifier(CardStats stats)

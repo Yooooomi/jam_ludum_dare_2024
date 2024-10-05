@@ -43,6 +43,7 @@ public class Deck : MonoBehaviour
 
     private void Start()
     {
+        GameState.instance.onTurnEnd.AddListener(OnTurnEnd);
         playerStats = GetComponent<PlayerStats>();
         ourBoard = GameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
         theirBoard = GameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
@@ -51,14 +52,18 @@ public class Deck : MonoBehaviour
         theirBoard.onTileClicked.AddListener(OnTheirBoardClick);
     }
 
-    private void OnTurnEnd()
+    private void OnTurnEnd(int playerId)
     {
         ChangeCardSelection(null);
     }
 
     private void OnOurBoardClick(BoardTile tile)
     {
-        if (tile.card != null || selectedCard == null)
+        if (!GameState.instance.MyTurn(playerId))
+        {
+            return;
+        }
+        if (selectedCard == null)
         {
             return;
         }
@@ -73,15 +78,14 @@ public class Deck : MonoBehaviour
             {
                 return;
             }
-            ourBoard.PlaceCard(tile, selectedCard.card);
             hand.Remove(selectedCard.card);
+            ourBoard.PlaceCard(tile, selectedCard.card);
             ChangeCardSelection(null);
         }
     }
 
     private void OnTheirBoardClick(BoardTile tile)
     {
-        Debug.Log("Their board click");
     }
 
     private void ChangeCardSelection(SelectedCard selectedCard)
@@ -104,17 +108,20 @@ public class Deck : MonoBehaviour
         }
 
         var theirBoardTile = theirBoard.GetCardTile(card);
+        Debug.Log($"{playerId} Their {theirBoardTile} {(theirBoardTile != null ? theirBoardTile.HoldsCard() : "none")} {selectedCard} {(selectedCard != null ? selectedCard.location : "none")}");
         if (
             // Their board has a tile containing the card
-            theirBoardTile != null && theirBoardTile.card != null &&
+            theirBoardTile != null && theirBoardTile.HoldsCard() &&
             // Our selected card comes from our board
             selectedCard != null && selectedCard.location == SelectedCard.Location.OUR
         )
         {
             if (!selectedCard.card.CanAttack())
             {
+                Debug.Log($"{playerId} Cannot attack this is weird");
                 return;
             }
+            Debug.Log($"{playerId} Should attack haha!");
             selectedCard.card.Attack(theirBoardTile.card);
             return;
         }
@@ -138,14 +145,6 @@ public class Deck : MonoBehaviour
             instantiated.playerId = playerId;
             hand.Add(instantiated);
             onSelectionUpdate.Invoke();
-        }
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DrawCards(1);
         }
     }
 }

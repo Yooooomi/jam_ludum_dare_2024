@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        GameState.instance.onTurnBegin.AddListener(OnTurnBegin);
         player = GetComponent<Player>();
         mana = maxMana;
         health = maxHealth;

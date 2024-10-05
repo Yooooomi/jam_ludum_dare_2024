@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     {
         deck = GetComponent<Deck>();
         deck.DrawCards(startCardsCount);
+        GameState.instance.onTurnBegin.AddListener(OnTurnBegin);
     }
 
     private void OnTurnBegin(int playerId)

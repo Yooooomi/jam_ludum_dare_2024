@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class CardManipulation : MonoBehaviour
 {
-    private Deck deck;
     private CardBehavior behavior;
 
     private void Start()
     {
-        deck = GetComponentInParent<Deck>();
         behavior = GetComponent<CardBehavior>();
     }
 
     public void Click()
     {
-        deck.Select(behavior);
+        var us = GameState.instance.GetPlayer(behavior.playerId);
+        var them = GameState.instance.GetOtherPlayer(behavior.playerId);
+
+        us.GetComponent<Deck>().Select(behavior);
+        them.GetComponent<Deck>().Select(behavior);
     }
 }

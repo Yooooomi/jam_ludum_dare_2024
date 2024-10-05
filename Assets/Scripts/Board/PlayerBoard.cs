@@ -12,6 +12,26 @@ public class PlayerBoard : MonoBehaviour
 
     public OnTileClicked onTileClicked = new OnTileClicked();
 
+    private void Start()
+    {
+        GameState.instance.onKilled.AddListener(OnKilled);
+        foreach (Transform tile in boardGenerator.GetTiles())
+        {
+            Vector2 tile_pos = tile.GetComponent<TilePos>().pos;
+            if (!tile.TryGetComponent<BoardTile>(out var tile_script))
+            {
+                Debug.LogError("Missing BoardTile script on tile");
+                continue;
+            }
+            tileByPos[tile_pos] = tile_script;
+            tileToPos[tile_script] = tile_pos;
+            tile.GetComponent<Clickable>().OnClick.AddListener(() =>
+            {
+                onTileClicked.Invoke(tile_script);
+            });
+        }
+    }
+
     private CardBehavior GetCardNextToIt(CardBehavior card, Vector2 direction)
     {
         BoardTile tile = GetCardTile(card);
@@ -65,6 +85,7 @@ public class PlayerBoard : MonoBehaviour
         }
         tile.card = card;
         card.transform.SetParent(tile.transform);
+        GameState.instance.onPlaced.Invoke(card);
     }
 
     public BoardTile GetCardTile(CardBehavior card)
@@ -102,25 +123,4 @@ public class PlayerBoard : MonoBehaviour
     {
         return tileByPos.Values.ToList();
     }
-
-    private void Start()
-    {
-        foreach (Transform tile in boardGenerator.GetTiles())
-        {
-            Vector2 tile_pos = tile.GetComponent<TilePos>().pos;
-            if (!tile.TryGetComponent<BoardTile>(out var tile_script))
-            {
-                Debug.LogError("Missing BoardTile script on tile");
-                continue;
-            }
-            tileByPos[tile_pos] = tile_script;
-            tileToPos[tile_script] = tile_pos;
-            tile.GetComponent<Clickable>().OnClick.AddListener(() =>
-            {
-                onTileClicked.Invoke(tile_script);
-            });
-        }
-    }
-
-
 }
