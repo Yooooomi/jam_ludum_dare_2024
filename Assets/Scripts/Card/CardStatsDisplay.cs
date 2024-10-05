@@ -42,9 +42,9 @@ public class CardStatsDisplay : MonoBehaviour
         }
         UpdateStats();
 
-        nameText.text = card.card.info.name;
+        nameText.text = card.info.name;
         UpdateText(nameText);
-        descText.text = card.card.info.description;
+        descText.text = card.info.description;
         UpdateText(descText);
     }
 
