@@ -14,7 +14,7 @@ public class DeckRenderer : MonoBehaviour
     private void Start()
     {
         deck = GetComponent<Deck>();
-        deck.onDeckUpdate.AddListener(UpdateDeck);
+        deck.onSelectionUpdate.AddListener(UpdateDeck);
         ourBoard = GetComponent<PlayerBoard>();
     }
 
@@ -22,6 +22,7 @@ public class DeckRenderer : MonoBehaviour
     {
         var center = deck.hand.Count * cardOffset / 2;
         var deckHandPosition = deck.deckHand.position;
+
         for (int i = 0; i < deck.hand.Count; i += 1)
         {
             var card = deck.hand[i];
@@ -38,6 +39,19 @@ public class DeckRenderer : MonoBehaviour
             var rotation = Quaternion.Euler(0, 0, finalAngle);
 
             cardAnimation.GoTo(position, rotation);
+        }
+
+        var tiles = ourBoard.GetTiles();
+        for (int i = 0; i < tiles.Count; i += 1)
+        {
+            var tile = tiles[i];
+            var card = tile.card;
+            if (card == null)
+            {
+                continue;
+            }
+            var offsetWithTile = new Vector3(0, 0.02f, 0);
+            card.GetComponent<CardPositionAnimation>().GoTo(tile.transform.position + offsetWithTile, Quaternion.identity);
         }
     }
 }

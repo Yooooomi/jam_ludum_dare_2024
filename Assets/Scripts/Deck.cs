@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class OnDeckUpdate : UnityEvent { }
+public class OnSelectionUpdate : UnityEvent { }
 
 public class SelectedCard
 {
@@ -33,7 +33,7 @@ public class Deck : MonoBehaviour
     [HideInInspector]
     public List<CardBehavior> hand = new();
 
-    public OnDeckUpdate onDeckUpdate = new();
+    public OnSelectionUpdate onSelectionUpdate = new();
 
     private PlayerStats playerStats;
     private PlayerBoard ourBoard;
@@ -53,8 +53,7 @@ public class Deck : MonoBehaviour
 
     private void OnTurnEnd()
     {
-        selectedCard = null;
-        onDeckUpdate.Invoke();
+        ChangeCardSelection(null);
     }
 
     private void OnOurBoardClick(BoardTile tile)
@@ -65,12 +64,18 @@ public class Deck : MonoBehaviour
         }
         if (selectedCard.location == SelectedCard.Location.HAND)
         {
+            if (!hand.Contains(selectedCard.card) || !ourBoard.CanPlaceCard(tile, selectedCard.card))
+            {
+                ChangeCardSelection(null);
+                return;
+            }
             if (!playerStats.ConsumeMana(selectedCard.card.stats.mana))
             {
                 return;
             }
             ourBoard.PlaceCard(tile, selectedCard.card);
             hand.Remove(selectedCard.card);
+            ChangeCardSelection(null);
         }
     }
 
@@ -79,12 +84,18 @@ public class Deck : MonoBehaviour
         Debug.Log("Their board click");
     }
 
+    private void ChangeCardSelection(SelectedCard selectedCard)
+    {
+        this.selectedCard = selectedCard;
+        onSelectionUpdate.Invoke();
+    }
+
     public void Select(CardBehavior card)
     {
-        var ourBoardTile = theirBoard.GetCardTile(card);
+        var ourBoardTile = ourBoard.GetCardTile(card);
         if (ourBoardTile != null)
         {
-            selectedCard = new SelectedCard(SelectedCard.Location.OUR, card);
+            ChangeCardSelection(new SelectedCard(SelectedCard.Location.OUR, card));
             return;
         }
 
@@ -104,8 +115,7 @@ public class Deck : MonoBehaviour
             return;
         }
 
-        selectedCard = new SelectedCard(SelectedCard.Location.HAND, card);
-        onDeckUpdate.Invoke();
+        ChangeCardSelection(new SelectedCard(SelectedCard.Location.HAND, card));
     }
 
     public void DrawCards(int count)
@@ -116,7 +126,7 @@ public class Deck : MonoBehaviour
             var instantiated = Instantiate(card, deckHand);
             instantiated.playerId = playerId;
             hand.Add(instantiated);
-            onDeckUpdate.Invoke();
+            onSelectionUpdate.Invoke();
         }
     }
 

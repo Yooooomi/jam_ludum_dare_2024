@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 public class OnTileClicked : UnityEvent<BoardTile> { };
 
@@ -46,6 +46,11 @@ public class PlayerBoard : MonoBehaviour
         return GetCardNextToIt(card, new Vector2(0, -1));
     }
 
+    public bool CanPlaceCard(BoardTile tile, CardBehavior card)
+    {
+        return tile.card != null;
+    }
+
     public void PlaceCard(BoardTile tile, CardBehavior card)
     {
         if (tile == null)
@@ -53,15 +58,13 @@ public class PlayerBoard : MonoBehaviour
             Debug.LogError("PlaceCard with null tile");
             return;
         }
-        if (tile.card != null)
+        if (!CanPlaceCard(tile, card))
         {
             Debug.LogError("Trying to PlaceCard on a tile that already have a card");
             return;
         }
         tile.card = card;
-        card.transform.parent = tile.transform;
-        Vector3 offsetWithTile = new Vector3(0, 0.02f, 0);
-        card.GetComponent<CardPositionAnimation>().GoTo(offsetWithTile + tile.transform.position, Quaternion.identity);
+        card.transform.SetParent(tile.transform);
     }
 
     public BoardTile GetCardTile(CardBehavior card)
@@ -94,6 +97,11 @@ public class PlayerBoard : MonoBehaviour
     // Internal implementation details below
     private readonly Dictionary<Vector2, BoardTile> tileByPos = new();
     private readonly Dictionary<BoardTile, Vector2> tileToPos = new();
+
+    public List<BoardTile> GetTiles()
+    {
+        return tileByPos.Values.ToList();
+    }
 
     private void Start()
     {
