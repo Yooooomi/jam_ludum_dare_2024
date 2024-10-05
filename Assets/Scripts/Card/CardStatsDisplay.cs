@@ -30,7 +30,16 @@ public class CardStatsDisplay : MonoBehaviour
     void Start()
     {
         card = GetComponent<CardBehavior>();
-        card.onStatChanged.AddListener(UpdateStats);
+        DelayedGameBridge.instance.onCardStatChange.AddListener(onDamageTaken);
+        UpdateStats();
+    }
+
+    private void onDamageTaken(GameCard card)
+    {
+        if (this.card.card != card)
+        {
+            return;
+        }
         UpdateStats();
 
         nameText.text = card.card.info.name;

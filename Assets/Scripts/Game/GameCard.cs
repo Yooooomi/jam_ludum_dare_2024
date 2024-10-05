@@ -64,7 +64,14 @@ public class GameCard
     public bool LoseHealth(int damage)
     {
         stats.health -= damage;
-        GameBridge.instance.onDamageTaken.Invoke(this);
+        if (stats.health > 0)
+        {
+            GameBridge.instance.onCardStatChange.Invoke(this);
+        }
+        else
+        {
+            GameBridge.instance.onKilled.Invoke(this);
+        }
         return stats.health <= damage;
     }
 
@@ -78,6 +85,7 @@ public class GameCard
     public void Heal(int amount)
     {
         stats.health = Mathf.Clamp(stats.health + amount, 0, stats.maxHealth);
+        GameBridge.instance.onCardStatChange.Invoke(this);
     }
 
     public bool CanAttack()
@@ -88,12 +96,12 @@ public class GameCard
     public void RegisterStatModifier(Func<GameCardStats, GameCardStats> modifier)
     {
         modifiers.Add(modifier);
-        GameBridge.instance.onCardUpdate.Invoke(this);
+        GameBridge.instance.onCardStatChange.Invoke(this);
     }
 
     public void RemoveStatModifier(Func<GameCardStats, GameCardStats> modifier)
     {
         modifiers.Remove(modifier);
-        GameBridge.instance.onCardUpdate.Invoke(this);
+        GameBridge.instance.onCardStatChange.Invoke(this);
     }
 }

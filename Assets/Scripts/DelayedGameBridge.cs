@@ -10,9 +10,8 @@ public class DelayedGameBridge
   public GameOnKilled onKilled = new();
   public GameOnTurnBegin onTurnBegin = new();
   public GameOnTurnEnd onTurnEnd = new();
-  public GameOnDamageTaken onDamageTaken = new();
+  public GameOnCardStatChange onCardStatChange = new();
   public GameOnAttack onAttack = new();
-  public GameOnCardUpdate onCardUpdate = new();
   public GameOnPlayerDrawCard onPlayerDrawCard = new();
 
 
@@ -56,17 +55,13 @@ public class DelayedGameBridge
     {
       AddToQueue(() => onTurnEnd.Invoke(playerId));
     });
-    GameBridge.instance.onDamageTaken.AddListener((GameCard card) =>
+    GameBridge.instance.onCardStatChange.AddListener((GameCard card) =>
     {
-      AddToQueue(() => onDamageTaken.Invoke(card));
+      AddToQueue(() => onCardStatChange.Invoke(card));
     });
     GameBridge.instance.onAttack.AddListener((GameCard card) =>
     {
       AddToQueue(() => onAttack.Invoke(card));
-    });
-    GameBridge.instance.onCardUpdate.AddListener((GameCard card) =>
-    {
-      AddToQueue(() => onCardUpdate.Invoke(card));
     });
     GameBridge.instance.onPlayerDrawCard.AddListener((GameCard card) =>
     {

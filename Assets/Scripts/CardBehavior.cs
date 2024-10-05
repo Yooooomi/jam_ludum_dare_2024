@@ -6,8 +6,6 @@ public abstract class CardBehavior : MonoBehaviour
 {
     public GameCard card;
 
-    public UnityEvent onStatChanged = new();
-
     private static readonly Dictionary<GameCard, CardBehavior> GameCardToCardBehavior = new();
 
     public static CardBehavior FromGameCard(GameCard source)

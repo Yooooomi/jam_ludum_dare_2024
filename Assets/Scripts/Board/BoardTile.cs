@@ -12,7 +12,7 @@ public class BoardTile : MonoBehaviour
 
   private void OnKilled(GameCard card)
   {
-    if (this.card.card != card)
+    if (this.card == null || this.card.card != card)
     {
       return;
     }

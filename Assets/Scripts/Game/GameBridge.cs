@@ -5,10 +5,9 @@ public class GameOnKilled : UnityEvent<GameCard> { }
 public class GameOnTurnBegin : UnityEvent<int> { }
 public class GameOnTurnEnd : UnityEvent<int> { }
 // victim
-public class GameOnDamageTaken : UnityEvent<GameCard> { }
+public class GameOnCardStatChange : UnityEvent<GameCard> { }
 // from
 public class GameOnAttack : UnityEvent<GameCard> { }
-public class GameOnCardUpdate : UnityEvent<GameCard> { }
 public class GameOnPlayerDrawCard : UnityEvent<GameCard> { }
 
 public class GameBridge
@@ -17,9 +16,8 @@ public class GameBridge
     public GameOnKilled onKilled = new();
     public GameOnTurnBegin onTurnBegin = new();
     public GameOnTurnEnd onTurnEnd = new();
-    public GameOnDamageTaken onDamageTaken = new();
+    public GameOnCardStatChange onCardStatChange = new();
     public GameOnAttack onAttack = new();
-    public GameOnCardUpdate onCardUpdate = new();
     public GameOnPlayerDrawCard onPlayerDrawCard = new();
 
     public static GameBridge instance = new();
