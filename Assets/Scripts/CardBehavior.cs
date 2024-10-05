@@ -58,20 +58,6 @@ public abstract class CardBehavior : MonoBehaviour
         return buffed.maxHealth > stats.maxHealth;
     }
 
-    private bool IsBuffed() {
-        return modifiers.Count > 0;
-    } 
-
-    public bool HpIsBuffed() {
-        // TODO: timothee pond une dinguerie
-        return IsBuffed();
-    }
-
-    public bool AttackIsBuffed() {
-        // TODO: timothee pond une dinguerie
-        return IsBuffed();
-    }
-
     public void RegisterStatModifier(Func<CardStats, CardStats> modifier)
     {
         modifiers.Add(modifier);

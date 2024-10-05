@@ -227,8 +227,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpText: {fileID: 4342685224908067295}
+  hpBoostedColor: {r: 0.30476707, g: 0.8113208, b: 0.11480943, a: 0}
   manaText: {fileID: 206211985264124518}
   attackText: {fileID: 4197289632545366487}
+  damageBoostedColor: {r: 0.30588236, g: 0.8117648, b: 0.1137255, a: 0}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &7176213103274971571
 GameObject:
   m_ObjectHideFlags: 0

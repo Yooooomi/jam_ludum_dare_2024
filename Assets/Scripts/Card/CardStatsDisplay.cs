@@ -8,24 +8,39 @@ public class CardStatsDisplay : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI hpText;
     [SerializeField]
+    private Color hpBoostedColor;
+    [SerializeField]
     private TextMeshProUGUI manaText;
     [SerializeField]
-    private TextMeshProUGUI attackText
-;
+    private TextMeshProUGUI attackText;
+    [SerializeField]
+    private Color damageBoostedColor;
+    [SerializeField]
+    private Color defaultColor;
+    [SerializeField]
+    private float outlineWidth;
+
     private CardBehavior card;
+    
 
     void Start()
     {
         card = GetComponent<CardBehavior>();
-        var stats = card.GetCardStats();
-        manaText.text = stats.mana.ToString();
+        card.onStatChanged.AddListener(UpdateStats);
+        UpdateStats();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateText(TextMeshProUGUI text) {
+        text.outlineWidth = outlineWidth;
+    }
+
+    private void UpdateStats()
     {
         var stats = card.GetCardStats();
+        manaText.text = stats.mana.ToString();
+        manaText.outlineWidth = outlineWidth;
         attackText.text = stats.damage.ToString();
+        attackText.color = card.IsDamageBuffed() ? damageBoostedColor : defaultColor;
         if (stats.health == stats.maxHealth)
         {
             hpText.text = stats.health.ToString();
@@ -34,5 +49,11 @@ public class CardStatsDisplay : MonoBehaviour
         {
             hpText.text = stats.health.ToString() + "/" + stats.maxHealth.ToString();
         }
+        hpText.color = card.IsHealthBuffed() ? hpBoostedColor : defaultColor;
+        hpText.outlineWidth = outlineWidth;
+
+        UpdateText(manaText);
+        UpdateText(hpText);
+        UpdateText(attackText);
     }
 }
