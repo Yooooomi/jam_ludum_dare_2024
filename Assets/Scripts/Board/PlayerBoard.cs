@@ -52,8 +52,10 @@ public class PlayerBoard : MonoBehaviour
             Debug.LogError("Trying to PlaceCard on a tile that already have a card");
             return;
         }
-        // TODO also put the card in it like game object this kind of stuff
         tile.card = card;
+        card.transform.parent = tile.transform;
+        Vector3 offsetWithTile = new Vector3(0, 0.02f, 0);
+        card.GetComponent<CardPositionAnimation>().GoTo(offsetWithTile + tile.transform.position, Quaternion.identity);
     }
 
     public BoardTile GetCardTile(CardBehavior card)
@@ -82,8 +84,8 @@ public class PlayerBoard : MonoBehaviour
     }
 
     // Internal implementation details below
-    private Dictionary<Vector2, BoardTile> tileByPos;
-    private Dictionary<BoardTile, Vector2> tileToPos;
+    private Dictionary<Vector2, BoardTile> tileByPos = new();
+    private Dictionary<BoardTile, Vector2> tileToPos = new();
 
     private void Start()
     {
