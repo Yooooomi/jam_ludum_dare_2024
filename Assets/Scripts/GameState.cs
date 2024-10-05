@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
+    public static GameState instance;
+
+    private void Awake() {
+        instance = this;
+    }
+
     protected int playerTurn;
     [SerializeField]
     protected List<GameObject> players = new();

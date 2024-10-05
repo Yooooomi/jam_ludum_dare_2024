@@ -18,7 +18,9 @@ public class ClickableManager : MonoBehaviour
         {
             return;
         }
-        var ray = cam.ViewportPointToRay(Input.mousePosition);
+        var viewport = cam.ScreenToViewportPoint(Input.mousePosition);
+        var ray = cam.ViewportPointToRay(viewport);
+        Debug.DrawRay(ray.origin, ray.direction, Color.red, 1f);
         if (!Physics.Raycast(ray, out var hit))
         {
             return;
