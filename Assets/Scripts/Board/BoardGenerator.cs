@@ -14,26 +14,16 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField]
     private Vector2 tilePadding;
 
-    [CustomEditor(typeof(BoardGenerator))]
-    public class ButtonInspector : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-            if (GUILayout.Button("Generate"))
-            {
-                var instance = (BoardGenerator)target;
-                instance.Generate();
-            }
-        }
-    }
-
     public List<Transform> GetTiles() {
         List<Transform> result = new List<Transform>();
         for(int i = 0; i < tileContainer.childCount; ++i) {
             result.Add(tileContainer.GetChild(i));
         }
         return result;
+    }
+
+    private void Awake() {
+        Generate();
     }
 
     private void Generate() {
