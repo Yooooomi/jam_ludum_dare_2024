@@ -9,4 +9,9 @@ public class Entrypoint : MonoBehaviour
     {
         GameState.InitGameState(catalog);
     }
+
+    private void Start()
+    {
+        GameState.instance.StartGame();
+    }
 }

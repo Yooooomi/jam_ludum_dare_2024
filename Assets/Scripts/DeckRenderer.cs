@@ -13,16 +13,27 @@ public class DeckRenderer : MonoBehaviour
     private Deck deck;
     private PlayerBoard ourBoard;
 
-    private void Start()
+    private void Awake()
     {
         deck = GetComponent<Deck>();
         deck.onSelectionUpdate.AddListener(UpdateDeck);
+        DelayedGameBridge.instance.onPlayerDrawCard.AddListener(OnPlaced);
         DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
         ourBoard = GetComponent<PlayerBoard>();
     }
 
     private void OnPlaced(GameCard card)
     {
+        if (deck.playerId != card.playerId) {
+            return;
+        }
+        var tile = GameState.instance.GetPlayer(card.playerId).board.GetCardTile(card);
+        if (tile != null) {
+            var cardBehavior = CardBehavior.FromGameCard(card);
+            if (cardBehavior != null) {
+                ourBoard.PlaceCardOnTile(cardBehavior, tile);
+            }
+        }
         UpdateDeck();
     }
 

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GamePlayer
 {
     public readonly int id;
     public readonly GamePlayerStats stats;
     public readonly GamePlayerDeck deck;
-    public readonly GameBoard board;
+    public readonly GameBoard board = new();
     public readonly List<GameCard> hand = new();
 
     public GamePlayer(int id, CardsCatalog catalog)

@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class GameBoard
 {
+    private readonly Dictionary<Vector2, GameBoardTile> tileByPos = new();
+    private readonly Dictionary<GameBoardTile, Vector2> tileToPos = new();
+
     public GameBoard()
     {
         GameBridge.instance.onKilled.AddListener(OnKilled);
+        for (int x = 0; x < 4; x += 1)
+        {
+            for (int y = 0; y < 2; y += 1)
+            {
+                var pos = new Vector2(x, y);
+                var tile = new GameBoardTile();
+                tileByPos[pos] = tile;
+                tileToPos[tile] = pos;
+            }
+        }
     }
 
     private GameCard GetCardNextToIt(GameCard card, Vector2 direction)
@@ -90,10 +103,6 @@ public class GameBoard
         }
         tile.card = null;
     }
-
-    // Internal implementation details below
-    private readonly Dictionary<Vector2, GameBoardTile> tileByPos = new();
-    private readonly Dictionary<GameBoardTile, Vector2> tileToPos = new();
 
     public List<GameBoardTile> GetTiles()
     {

@@ -17,14 +17,19 @@ public class PlayerBoard : MonoBehaviour
 
     private void Start()
     {
-        foreach (Transform tile in boardGenerator.GetTiles())
+        var playerId = GetComponentInParent<PlayerInstance>().playerId;
+        var gameTiles = GameState.instance.GetPlayer(playerId).board.GetTiles();
+        var tiles = boardGenerator.GetTiles();
+        for (int i = 0; i < gameTiles.Count; i += 1)
         {
+            var tile = tiles[i];
             Vector2 tile_pos = tile.GetComponent<TilePos>().pos;
             if (!tile.TryGetComponent<BoardTile>(out var tile_script))
             {
                 Debug.LogError("Missing BoardTile script on tile");
                 continue;
             }
+            tile_script.tile = gameTiles[i];
             tileByPos[tile_pos] = tile_script;
             tileToPos[tile_script] = tile_pos;
             tile.GetComponent<Clickable>().OnClick.AddListener(() =>
@@ -32,6 +37,29 @@ public class PlayerBoard : MonoBehaviour
                 onTileClicked.Invoke(tile_script);
             });
         }
+    }
+
+    public void PlaceCardOnTile(CardBehavior card, GameBoardTile tile)
+    {
+        var boardTile = GetBoardTileFromGameTile(tile);
+        if (boardTile == null)
+        {
+            return;
+        }
+        card.transform.SetParent(boardTile.transform);
+        boardTile.card = card;
+    }
+
+    private BoardTile GetBoardTileFromGameTile(GameBoardTile tile)
+    {
+        foreach (var boardTile in tileByPos.Values)
+        {
+            if (boardTile.tile == tile)
+            {
+                return boardTile;
+            }
+        }
+        return null;
     }
 
     public List<BoardTile> GetTiles()
