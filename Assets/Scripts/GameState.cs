@@ -10,7 +10,7 @@ public class GameState : MonoBehaviour
         instance = this;
     }
 
-    protected int playerTurn;
+    protected int playerTurn = 1;
     [SerializeField]
     protected List<GameObject> players = new();
 
@@ -22,6 +22,11 @@ public class GameState : MonoBehaviour
     public GameObject GetOtherPlayer(int playerId)
     {
         return players[(playerId + 1) % 2];
+    }
+
+    private void Start()
+    {
+        EndTurn();
     }
 
     public void EndTurn()

@@ -30,6 +30,5 @@ public class CardPositionAnimation : MonoBehaviour
         var framePosition = Vector3.Lerp(startPosition, targetPosition, Mathf.Clamp01(elapsed / animationDuration));
         var frameRotation = Quaternion.Lerp(startRotation, targetRotation, Mathf.Clamp01(elapsed / animationDuration));
         transform.SetPositionAndRotation(framePosition, frameRotation);
-        // transform.SetLocalPositionAndRotation(framePosition, frameRotation);
     }
 }

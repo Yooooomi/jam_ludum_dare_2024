@@ -9,11 +9,13 @@ public class DeckRenderer : MonoBehaviour
     [SerializeField]
     private float angle;
     private Deck deck;
+    private PlayerBoard ourBoard;
 
     private void Start()
     {
         deck = GetComponent<Deck>();
         deck.onDeckUpdate.AddListener(UpdateDeck);
+        ourBoard = GetComponent<PlayerBoard>();
     }
 
     private void UpdateDeck()
@@ -23,7 +25,7 @@ public class DeckRenderer : MonoBehaviour
         for (int i = 0; i < deck.hand.Count; i += 1)
         {
             var card = deck.hand[i];
-            var selected = deck.selectedCard.card == card;
+            var selected = deck.selectedCard != null && deck.selectedCard.card == card;
             var height = selected ? selectedOffset : 0;
             var finalAngle = selected ? 0 : angle;
             var cardAnimation = card.GetComponent<CardPositionAnimation>();

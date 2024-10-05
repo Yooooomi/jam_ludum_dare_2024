@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class OnTileClicked : UnityEvent<BoardTile> {};
+public class OnTileClicked : UnityEvent<BoardTile> { };
 
 public class PlayerBoard : MonoBehaviour
 {
@@ -12,27 +12,33 @@ public class PlayerBoard : MonoBehaviour
 
     public OnTileClicked onTileClicked = new OnTileClicked();
 
-    private CardBehavior GetCardNextToIt(CardBehavior card, Vector2 direction) {
+    private CardBehavior GetCardNextToIt(CardBehavior card, Vector2 direction)
+    {
         BoardTile tile = GetCardTile(card);
-        if (tile == null) {
+        if (tile == null)
+        {
             return null;
         }
         Vector2 targetCardPos = tileToPos[tile] + direction;
         BoardTile cardNextToId = tileByPos[targetCardPos];
-        if (cardNextToId == null) {
+        if (cardNextToId == null)
+        {
             return null;
         }
         return cardNextToId.card;
     }
 
-    public CardBehavior GetLeft(CardBehavior card) {
+    public CardBehavior GetLeft(CardBehavior card)
+    {
         return GetCardNextToIt(card, new Vector2(-1, 0));
     }
-    public CardBehavior GetRight(CardBehavior card) {
+    public CardBehavior GetRight(CardBehavior card)
+    {
         return GetCardNextToIt(card, new Vector2(-1, 0));
 
     }
-    public CardBehavior GetUp(CardBehavior card) {
+    public CardBehavior GetUp(CardBehavior card)
+    {
         return GetCardNextToIt(card, new Vector2(0, 1));
     }
     public CardBehavior GetDown(CardBehavior card)
@@ -70,37 +76,39 @@ public class PlayerBoard : MonoBehaviour
         return null;
     }
 
-    private void OnKilled(CardBehavior card) {
+    private void OnKilled(CardBehavior card)
+    {
         CardRemoved(card);
     }
 
     private void CardRemoved(CardBehavior card)
     {
         BoardTile tile = GetCardTile(card);
-        if (tile == null) {
+        if (tile == null)
+        {
             return;
         }
         tile.card = null;
     }
 
     // Internal implementation details below
-    private Dictionary<Vector2, BoardTile> tileByPos = new();
-    private Dictionary<BoardTile, Vector2> tileToPos = new();
+    private readonly Dictionary<Vector2, BoardTile> tileByPos = new();
+    private readonly Dictionary<BoardTile, Vector2> tileToPos = new();
 
     private void Start()
     {
         foreach (Transform tile in boardGenerator.GetTiles())
         {
             Vector2 tile_pos = tile.GetComponent<TilePos>().pos;
-            BoardTile tile_script = tile.GetComponent<BoardTile>();
-            if (tile_script == null)
+            if (!tile.TryGetComponent<BoardTile>(out var tile_script))
             {
                 Debug.LogError("Missing BoardTile script on tile");
                 continue;
             }
             tileByPos[tile_pos] = tile_script;
             tileToPos[tile_script] = tile_pos;
-            tile.GetComponent<Clickable>().OnClick.AddListener(() => {
+            tile.GetComponent<Clickable>().OnClick.AddListener(() =>
+            {
                 onTileClicked.Invoke(tile_script);
             });
         }

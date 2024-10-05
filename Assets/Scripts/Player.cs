@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        deck = GetComponent<Deck>();
         deck.DrawCards(startCardsCount);
     }
 

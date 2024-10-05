@@ -47,8 +47,8 @@ public class Deck : MonoBehaviour
         ourBoard = GameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
         theirBoard = GameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
 
-        ourBoard.OnTileClick.AddListener(OnOurBoardClick);
-        theirBoard.OnTileClick.AddListener(OnTheirBoardClick);
+        ourBoard.onTileClicked.AddListener(OnOurBoardClick);
+        theirBoard.onTileClicked.AddListener(OnTheirBoardClick);
     }
 
     private void OnTurnEnd()
@@ -108,18 +108,16 @@ public class Deck : MonoBehaviour
         onDeckUpdate.Invoke();
     }
 
-    private bool CanPlayCard(CardBehavior card)
-    {
-        return playerStats.mana >= card.stats.mana;
-    }
-
     public void DrawCards(int count)
     {
-        var card = deck[0];
-        var instantiated = Instantiate(card, deckHand);
-        instantiated.playerId = playerId;
-        hand.Add(instantiated);
-        onDeckUpdate.Invoke();
+        for (int i = 0; i < count; i += 1)
+        {
+            var card = deck[0];
+            var instantiated = Instantiate(card, deckHand);
+            instantiated.playerId = playerId;
+            hand.Add(instantiated);
+            onDeckUpdate.Invoke();
+        }
     }
 
     public void Update()
