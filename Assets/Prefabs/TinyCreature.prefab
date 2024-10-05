@@ -137,7 +137,7 @@ MonoBehaviour:
     maxHealth: 1
     damage: 3
     health: 1
-    mana: 2
+    mana: 1
   onStatChanged:
     m_PersistentCalls:
       m_Calls: []

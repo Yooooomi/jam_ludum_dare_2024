@@ -17,17 +17,22 @@ public class CardStatsDisplay : MonoBehaviour
     void Start()
     {
         card = GetComponent<CardBehavior>();
-        manaText.text = card.stats.mana.ToString();
+        var stats = card.GetCardStats();
+        manaText.text = stats.mana.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        attackText.text = card.stats.damage.ToString();
-        if (card.stats.health == card.stats.maxHealth) {
-            hpText.text = card.stats.health.ToString();
-        } else {
-            hpText.text = card.stats.health.ToString() + "/" + card.stats.maxHealth.ToString();
+        var stats = card.GetCardStats();
+        attackText.text = stats.damage.ToString();
+        if (stats.health == stats.maxHealth)
+        {
+            hpText.text = stats.health.ToString();
+        }
+        else
+        {
+            hpText.text = stats.health.ToString() + "/" + stats.maxHealth.ToString();
         }
     }
 }
