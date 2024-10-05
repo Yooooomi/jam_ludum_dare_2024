@@ -51,6 +51,11 @@ public abstract class CardBehavior : MonoBehaviour
         return ComputeCardStats();
     }
 
+    public void SetInitialStats(CardStats cardStats) {
+        stats = cardStats;
+        onStatChanged.Invoke();
+    }
+
     public bool IsDamageBuffed()
     {
         var buffed = ComputeCardStats();
