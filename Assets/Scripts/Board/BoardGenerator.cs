@@ -29,6 +29,14 @@ public class BoardGenerator : MonoBehaviour
         }
     }
 
+    public List<Transform> GetTiles() {
+        List<Transform> result = new List<Transform>();
+        for(int i = 0; i < tileContainer.childCount; ++i) {
+            result.Add(tileContainer.GetChild(i));
+        }
+        return result;
+    }
+
     private void Generate() {
         int maxxxx = 0;
         while (tileContainer.childCount > 0) {
@@ -44,7 +52,9 @@ public class BoardGenerator : MonoBehaviour
             for (int y = 0; y < boardSize.y; ++y) {
                 Vector2 spawnPos2d = (new Vector2(x, y) - center) * tilePadding + tilePadding / 2;
                 Vector3 spawnPos = new Vector3(spawnPos2d.x, 0, spawnPos2d.y);
-                Instantiate(boardTile, tileContainer.position + spawnPos, Quaternion.identity, tileContainer);
+                GameObject newTile = Instantiate(boardTile, tileContainer.position + spawnPos, Quaternion.identity, tileContainer);
+                TilePos tilePos = newTile.GetComponent<TilePos>();
+                tilePos.pos = new Vector2(x, y);
             }
         }
     }
