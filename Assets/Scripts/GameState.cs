@@ -5,7 +5,8 @@ public class GameState : MonoBehaviour
 {
     public static GameState instance;
 
-    private void Awake() {
+    private void Awake()
+    {
         instance = this;
     }
 
@@ -13,11 +14,22 @@ public class GameState : MonoBehaviour
     [SerializeField]
     protected List<GameObject> players = new();
 
-    public void EndTurn() {
+    public GameObject GetPlayer(int playerId)
+    {
+        return players[playerId];
+    }
+
+    public GameObject GetOtherPlayer(int playerId)
+    {
+        return players[(playerId + 1) % 2];
+    }
+
+    public void EndTurn()
+    {
         var player = players[playerTurn];
-        player.SendMessage("OnTurnEnd");
+        player.SendMessage("OnTurnEnd", playerTurn);
         playerTurn = (playerTurn + 1) % 2;
         var nextPlayer = players[playerTurn];
-        nextPlayer.SendMessage("OnTurnBegin");
+        nextPlayer.SendMessage("OnTurnBegin", playerTurn);
     }
 }

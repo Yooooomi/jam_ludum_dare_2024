@@ -23,7 +23,7 @@ public class DeckRenderer : MonoBehaviour
         for (int i = 0; i < deck.hand.Count; i += 1)
         {
             var card = deck.hand[i];
-            var selected = deck.selected == card;
+            var selected = deck.selectedCard.card == card;
             var height = selected ? selectedOffset : 0;
             var finalAngle = selected ? 0 : angle;
             var cardAnimation = card.GetComponent<CardPositionAnimation>();

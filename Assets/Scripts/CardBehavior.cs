@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public struct CardStats
@@ -8,13 +7,17 @@ public struct CardStats
     public int maxHealth;
     public int damage;
     public int health;
+    public int mana;
 }
 
 public abstract class CardBehavior : MonoBehaviour
 {
+    public int playerId;
     public string cardName;
     public CardStats stats;
     protected PlayerBoard board;
+    private int lifetime;
+    private int lastLifetimeAttack;
 
     private readonly List<Func<CardStats, CardStats>> modifiers = new();
 
@@ -26,7 +29,8 @@ public abstract class CardBehavior : MonoBehaviour
             cloned = modifier(cloned);
         }
         stats = cloned;
-        if (stats.health > stats.maxHealth) {
+        if (stats.health > stats.maxHealth)
+        {
             stats.health = stats.maxHealth;
         }
     }
@@ -43,7 +47,14 @@ public abstract class CardBehavior : MonoBehaviour
         ComputeCardStats();
     }
 
-    public bool Attack(int damage)
+    public bool Attack(CardBehavior target)
+    {
+        var killed = target.LoseHealth(stats.damage);
+        lastLifetimeAttack = lifetime;
+        return killed;
+    }
+
+    public bool LoseHealth(int damage)
     {
         stats.health = Mathf.Clamp(stats.health - damage, 0, stats.maxHealth);
         Destroy(gameObject);
@@ -72,8 +83,13 @@ public abstract class CardBehavior : MonoBehaviour
         Debug.Log("OnKilled");
     }
 
-    protected virtual void OnTurnBegin()
+    protected virtual void OnTurnBegin(int playerId)
     {
+        if (this.playerId != playerId)
+        {
+            return;
+        }
+        lifetime += 1;
         Debug.Log("OnTurnBegin");
     }
 
@@ -92,4 +108,8 @@ public abstract class CardBehavior : MonoBehaviour
         Debug.Log("OnAttack");
     }
 
+    public virtual bool CanAttack()
+    {
+        return lifetime > 0;
+    }
 }

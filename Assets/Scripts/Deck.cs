@@ -1,12 +1,32 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class OnDeckUpdate : UnityEvent { }
 
+public class SelectedCard
+{
+    public enum Location
+    {
+        OUR = 0,
+        THEIR = 1,
+        HAND = 2,
+    }
+
+    public Location location;
+    public CardBehavior card;
+
+    public SelectedCard(Location location, CardBehavior card)
+    {
+        this.location = location;
+        this.card = card;
+    }
+}
+
 public class Deck : MonoBehaviour
 {
-    public CardBehavior selected;
+    public int playerId;
     [SerializeField]
     public Transform deckHand;
     public List<CardBehavior> deck = new();
@@ -15,23 +35,89 @@ public class Deck : MonoBehaviour
 
     public OnDeckUpdate onDeckUpdate = new();
 
+    private PlayerStats playerStats;
+    private PlayerBoard ourBoard;
+    private PlayerBoard theirBoard;
+
+    public SelectedCard selectedCard;
+
+    private void Start()
+    {
+        playerStats = GetComponent<PlayerStats>();
+        ourBoard = GameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
+        theirBoard = GameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
+
+        ourBoard.OnTileClick.AddListener(OnOurBoardClick);
+        theirBoard.OnTileClick.AddListener(OnTheirBoardClick);
+    }
+
     private void OnTurnEnd()
     {
-        selected = null;
+        selectedCard = null;
+        onDeckUpdate.Invoke();
+    }
+
+    private void OnOurBoardClick(BoardTile tile)
+    {
+        if (tile.card != null || selectedCard == null)
+        {
+            return;
+        }
+        if (selectedCard.location == SelectedCard.Location.HAND)
+        {
+            if (!playerStats.ConsumeMana(selectedCard.card.stats.mana))
+            {
+                return;
+            }
+            ourBoard.PlaceCard(tile, selectedCard.card);
+            hand.Remove(selectedCard.card);
+        }
+    }
+
+    private void OnTheirBoardClick(BoardTile tile)
+    {
+        Debug.Log("Their board click");
     }
 
     public void Select(CardBehavior card)
     {
-        selected = card;
+        var ourBoardTile = theirBoard.GetCardTile(card);
+        if (ourBoardTile != null)
+        {
+            selectedCard = new SelectedCard(SelectedCard.Location.OUR, card);
+            return;
+        }
+
+        var theirBoardTile = theirBoard.GetCardTile(card);
+        if (
+            // Their board has a tile containing the card
+            theirBoardTile != null && theirBoardTile.card != null &&
+            // Our selected card comes from our board
+            selectedCard != null && selectedCard.location == SelectedCard.Location.OUR
+        )
+        {
+            if (!selectedCard.card.CanAttack())
+            {
+                return;
+            }
+            selectedCard.card.Attack(theirBoardTile.card);
+            return;
+        }
+
+        selectedCard = new SelectedCard(SelectedCard.Location.HAND, card);
         onDeckUpdate.Invoke();
-        // TODO detect if card is ennemy card and attack
-        // hand.Remove(selected);
     }
 
-    public void DrawCard()
+    private bool CanPlayCard(CardBehavior card)
+    {
+        return playerStats.mana >= card.stats.mana;
+    }
+
+    public void DrawCards(int count)
     {
         var card = deck[0];
         var instantiated = Instantiate(card, deckHand);
+        instantiated.playerId = playerId;
         hand.Add(instantiated);
         onDeckUpdate.Invoke();
     }
@@ -40,7 +126,7 @@ public class Deck : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DrawCard();
+            DrawCards(1);
         }
     }
 }
