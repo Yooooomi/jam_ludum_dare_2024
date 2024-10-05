@@ -17,7 +17,13 @@ public class DeckRenderer : MonoBehaviour
     {
         deck = GetComponent<Deck>();
         deck.onSelectionUpdate.AddListener(UpdateDeck);
+        DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
         ourBoard = GetComponent<PlayerBoard>();
+    }
+
+    private void OnPlaced(GameCard card)
+    {
+        UpdateDeck();
     }
 
     private void UpdateDeck()

@@ -11,8 +11,8 @@ public class CardManipulation : MonoBehaviour
 
     public void Click()
     {
-        var us = GameState.instance.GetPlayer(behavior.playerId);
-        var them = GameState.instance.GetOtherPlayer(behavior.playerId);
+        var us = RendererGameState.instance.GetPlayer(behavior.card.playerId);
+        var them = RendererGameState.instance.GetOtherPlayer(behavior.card.playerId);
 
         us.GetComponent<Deck>().Select(behavior);
         them.GetComponent<Deck>().Select(behavior);

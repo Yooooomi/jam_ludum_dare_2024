@@ -21,7 +21,7 @@ public class CardStatsDisplay : MonoBehaviour
     private float outlineWidth;
 
     private CardBehavior card;
-    
+
 
     void Start()
     {
@@ -30,13 +30,14 @@ public class CardStatsDisplay : MonoBehaviour
         UpdateStats();
     }
 
-    private void UpdateText(TextMeshProUGUI text) {
+    private void UpdateText(TextMeshProUGUI text)
+    {
         text.outlineWidth = outlineWidth;
     }
 
     private void UpdateStats()
     {
-        var stats = card.GetCardStats();
+        var stats = card.card.GetCardStats();
         manaText.text = stats.mana.ToString();
         manaText.outlineWidth = outlineWidth;
         attackText.text = stats.damage.ToString();

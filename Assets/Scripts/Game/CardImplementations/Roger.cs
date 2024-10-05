@@ -1,19 +1,24 @@
-public class Roger : CardBehavior
+public class Roger : GameCard
 {
-    private CardStats Modifier(CardStats stats)
+    public Roger()
+    {
+        GameBridge.instance.onPlaced.AddListener(OnPlaced);
+    }
+
+    private GameCardStats Modifier(GameCardStats stats)
     {
         stats.maxHealth += 2;
         return stats;
     }
 
-    protected override void OnPlaced(CardBehavior card)
+
+    private void OnPlaced(GameCard card)
     {
-        base.OnPlaced(card);
         if (!IsSelf(card))
         {
             return;
         }
-        var left = board.GetLeft(card);
+        var left = GameState.instance.GetPlayer(playerId).board.GetLeft(card);
         if (left == null)
         {
             return;
@@ -22,14 +27,13 @@ public class Roger : CardBehavior
         left.Heal(2);
     }
 
-    protected override void OnKilled(CardBehavior card)
+    private void OnKilled(GameCard card)
     {
-        base.OnKilled(card);
         if (!IsSelf(card))
         {
             return;
         }
-        var left = board.GetLeft(card);
+        var left = GameState.instance.GetPlayer(playerId).board.GetLeft(card);
         if (left == null)
         {
             return;

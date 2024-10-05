@@ -35,7 +35,6 @@ public class Deck : MonoBehaviour
 
     public OnSelectionUpdate onSelectionUpdate = new();
 
-    private PlayerStats playerStats;
     private PlayerBoard ourBoard;
     private PlayerBoard theirBoard;
 
@@ -43,10 +42,10 @@ public class Deck : MonoBehaviour
 
     private void Start()
     {
-        GameState.instance.onTurnEnd.AddListener(OnTurnEnd);
-        playerStats = GetComponent<PlayerStats>();
-        ourBoard = GameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
-        theirBoard = GameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
+        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
+
+        ourBoard = RendererGameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
+        theirBoard = RendererGameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
 
         ourBoard.onTileClicked.AddListener(OnOurBoardClick);
         theirBoard.onTileClicked.AddListener(OnTheirBoardClick);
@@ -69,17 +68,7 @@ public class Deck : MonoBehaviour
         }
         if (selectedCard.location == SelectedCard.Location.HAND)
         {
-            if (!hand.Contains(selectedCard.card) || !ourBoard.CanPlaceCard(tile, selectedCard.card))
-            {
-                ChangeCardSelection(null);
-                return;
-            }
-            if (!playerStats.ConsumeMana(selectedCard.card.GetCardStats().mana))
-            {
-                return;
-            }
-            hand.Remove(selectedCard.card);
-            ourBoard.PlaceCard(tile, selectedCard.card);
+            GameState.instance.GetPlayer(playerId).PlayCard(tile.tile, selectedCard.card.card);
             ChangeCardSelection(null);
         }
     }
@@ -100,14 +89,14 @@ public class Deck : MonoBehaviour
         {
             return;
         }
-        var ourBoardTile = ourBoard.GetCardTile(card);
+        var ourBoardTile = GameState.instance.GetPlayer(playerId).board.GetCardTile(card.card);
         if (ourBoardTile != null)
         {
             ChangeCardSelection(new SelectedCard(SelectedCard.Location.OUR, card));
             return;
         }
 
-        var theirBoardTile = theirBoard.GetCardTile(card);
+        var theirBoardTile = GameState.instance.GetOtherPlayer(playerId).board.GetCardTile(card.card);
         Debug.Log($"{playerId} Their {theirBoardTile} {(theirBoardTile != null ? theirBoardTile.HoldsCard() : "none")} {selectedCard} {(selectedCard != null ? selectedCard.location : "none")}");
         if (
             // Their board has a tile containing the card
@@ -116,13 +105,11 @@ public class Deck : MonoBehaviour
             selectedCard != null && selectedCard.location == SelectedCard.Location.OUR
         )
         {
-            if (!selectedCard.card.CanAttack())
+            if (!selectedCard.card.card.CanAttack())
             {
-                Debug.Log($"{playerId} Cannot attack this is weird");
                 return;
             }
-            Debug.Log($"{playerId} Should attack haha!");
-            selectedCard.card.Attack(theirBoardTile.card);
+            selectedCard.card.card.Attack(theirBoardTile.card);
             return;
         }
 
@@ -133,18 +120,6 @@ public class Deck : MonoBehaviour
         else if (hand.Contains(card))
         {
             ChangeCardSelection(new SelectedCard(SelectedCard.Location.HAND, card));
-        }
-    }
-
-    public void DrawCards(int count)
-    {
-        for (int i = 0; i < count; i += 1)
-        {
-            var card = deck[0];
-            var instantiated = Instantiate(card, deckHand);
-            instantiated.playerId = playerId;
-            hand.Add(instantiated);
-            onSelectionUpdate.Invoke();
         }
     }
 }
