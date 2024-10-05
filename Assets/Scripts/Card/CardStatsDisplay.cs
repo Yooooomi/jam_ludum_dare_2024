@@ -19,15 +19,24 @@ public class CardStatsDisplay : MonoBehaviour
     private Color defaultColor;
     [SerializeField]
     private float outlineWidth;
+    [SerializeField]
+    private TextMeshProUGUI nameText;
+    [SerializeField]
+    private TextMeshProUGUI descText;
+    [SerializeField]
 
     private CardBehavior card;
-
 
     void Start()
     {
         card = GetComponent<CardBehavior>();
         card.onStatChanged.AddListener(UpdateStats);
         UpdateStats();
+
+        nameText.text = card.card.info.name;
+        UpdateText(nameText);
+        descText.text = card.card.info.description;
+        UpdateText(descText);
     }
 
     private void UpdateText(TextMeshProUGUI text)
