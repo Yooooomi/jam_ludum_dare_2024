@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class DelayedGameBridge
@@ -21,10 +22,12 @@ public class DelayedGameBridge
   {
     while (true)
     {
-      foreach (var action in queue)
+      var temp = queue.ToList();
+      queue.Clear();
+      foreach (var action in temp)
       {
         action();
-        await Task.Delay(1000);
+        await Task.Delay(100);
       }
       await Task.Delay(1000);
     }

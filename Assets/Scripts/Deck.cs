@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,7 +25,6 @@ public class SelectedCard
 
 public class Deck : MonoBehaviour
 {
-    public int playerId;
     [SerializeField]
     public Transform deckHand;
     public List<CardBehavior> deck = new();
@@ -39,16 +37,45 @@ public class Deck : MonoBehaviour
     private PlayerBoard theirBoard;
 
     public SelectedCard selectedCard;
+    [HideInInspector]
+    public int playerId;
+
+    private void Awake()
+    {
+        playerId = GetComponent<PlayerInstance>().playerId;
+        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
+        DelayedGameBridge.instance.onPlayerDrawCard.AddListener(OnPlayerDrawCard);
+        DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
+    }
 
     private void Start()
     {
-        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
-
         ourBoard = RendererGameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
         theirBoard = RendererGameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
-
         ourBoard.onTileClicked.AddListener(OnOurBoardClick);
         theirBoard.onTileClicked.AddListener(OnTheirBoardClick);
+    }
+
+    private void OnPlaced(GameCard card)
+    {
+        if (playerId != card.playerId)
+        {
+            return;
+        }
+        var cardBehavior = CardBehavior.FromGameCard(card);
+        hand.Remove(cardBehavior);
+    }
+
+    private void OnPlayerDrawCard(GameCard card)
+    {
+        if (card.playerId != playerId) {
+            return;
+        }
+        var cardGameobject = CardsCatalog.instance.InstantiateCard(card.info);
+        var setup = cardGameobject.GetComponent<CardInitialSetup>();
+        setup.SetupGameCard(card);
+        hand.Add(setup.card);
+        onSelectionUpdate.Invoke();
     }
 
     private void OnTurnEnd(int playerId)

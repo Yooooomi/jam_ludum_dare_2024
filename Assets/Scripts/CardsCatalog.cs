@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,10 +43,17 @@ public class CardInfo
 
 public class CardsCatalog : MonoBehaviour
 {
+    static public CardsCatalog instance;
+
     public List<CardInfo> cardInfos;
 
     public GameObject cardPrefab;
     public Transform cardsGenerationParent;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public GameObject InstantiateCard(CardInfo cardInfo)
     {

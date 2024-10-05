@@ -19,11 +19,13 @@ public class GameCard
     public int playerId;
     private int lifetime;
     private int lastLifetimeAttack;
+    public CardInfo info;
 
-    public GameCard(GameCardStats stats)
+    public GameCard(GameCardStats stats, CardInfo info)
     {
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
         this.stats = stats;
+        this.info = info;
     }
 
     protected bool IsSelf(GameCard other)

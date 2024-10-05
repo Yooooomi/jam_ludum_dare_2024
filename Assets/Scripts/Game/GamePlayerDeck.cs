@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GamePlayerDeck
 {
@@ -19,10 +20,10 @@ public class GamePlayerDeck
     {
       ResetDeck();
     }
-    int index = UnityEngine.Random.Range(0, cards_.Count);
-    CardInfo pickedCard = cards_[index];
+    int index = Random.Range(0, cards_.Count);
+    var pickedCard = cards_[index];
     cards_.RemoveAt(index);
-    GameCard card = new GameCard(pickedCard.stats)
+    var card = new GameCard(pickedCard.stats, pickedCard)
     {
       playerId = playerId,
     };

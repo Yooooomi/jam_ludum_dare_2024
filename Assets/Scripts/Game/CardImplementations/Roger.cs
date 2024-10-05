@@ -1,6 +1,6 @@
 public class Roger : GameCard
 {
-    public Roger(GameCardStats stats) : base(stats)
+    public Roger(GameCardStats stats, CardInfo info) : base(stats, info)
     {
         GameBridge.instance.onPlaced.AddListener(OnPlaced);
     }

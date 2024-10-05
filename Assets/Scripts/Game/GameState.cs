@@ -10,15 +10,20 @@ public class GameState
     public List<GamePlayer> players = new();
 
     private int playerTurn = 0;
-    private CardsCatalog catalog;
 
     public GameState(CardsCatalog catalog)
     {
-        this.catalog = catalog;
-        int id = 0;
-        players.Add(new GamePlayer(id, catalog));
-        id += 1;
-        players.Add(new GamePlayer(id, catalog));
+        players.Add(new GamePlayer(0, catalog));
+        players.Add(new GamePlayer(1, catalog));
+    }
+
+    public void StartGame()
+    {
+        foreach (var player in players)
+        {
+            player.DrawCards(1);
+        }
+        GameBridge.instance.onTurnBegin.Invoke(playerTurn);
     }
 
     public void EndTurn()
