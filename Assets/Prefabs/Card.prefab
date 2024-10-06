@@ -468,8 +468,8 @@ GameObject:
   - component: {fileID: 3274599570782961942}
   - component: {fileID: 4448690574309107097}
   - component: {fileID: 7674675819456172239}
-  - component: {fileID: -6632168211954621957}
   - component: {fileID: 4730836086455897938}
+  - component: {fileID: 1431942613742239648}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -589,22 +589,7 @@ MonoBehaviour:
   outlineWidth: 0.2
   nameText: {fileID: 2959034199964447343}
   descText: {fileID: 5909478857385482283}
-  initialSetup: {fileID: 4730836086455897938}
---- !u!114 &-6632168211954621957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7112157544376749150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2144a55d833f4e698c224f0ca1220ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onStatChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  card: {fileID: 0}
 --- !u!114 &4730836086455897938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,19 +603,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageRender: {fileID: 2479088976140657537}
-  cardBehavior: {fileID: -6632168211954621957}
-  cardInfo:
-    image: {fileID: 0}
-    name: 
-    stats:
-      maxHealth: 0
-      health: 0
-      mana: 0
-      damage: 0
-    count: 0
-    description: 
-    cardType: 0
-    cardBehaviorType: 0
+  card: {fileID: 0}
+--- !u!114 &1431942613742239648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7112157544376749150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b442b4486413f4512bfee9c634323df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7176213103274971571
 GameObject:
   m_ObjectHideFlags: 0

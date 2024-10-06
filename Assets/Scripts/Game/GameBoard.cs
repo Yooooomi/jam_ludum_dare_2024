@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class GameBoard
 {
+    private const int BOARD_WIDTH = 4;
+    private const int BOARD_HEIGHT = 2;
     private readonly Dictionary<Vector2, GameBoardTile> tileByPos = new();
     private readonly Dictionary<GameBoardTile, Vector2> tileToPos = new();
 
     public GameBoard()
     {
         GameBridge.instance.onKilled.AddListener(OnKilled);
-        for (int x = 0; x < 4; x += 1)
+        for (int x = 0; x < BOARD_WIDTH; x += 1)
         {
-            for (int y = 0; y < 2; y += 1)
+            for (int y = 0; y < BOARD_HEIGHT; y += 1)
             {
                 var pos = new Vector2(x, y);
-                var tile = new GameBoardTile();
+                var tile = new GameBoardTile(x, y);
                 tileByPos[pos] = tile;
                 tileToPos[tile] = pos;
             }
@@ -30,27 +32,54 @@ public class GameBoard
             return null;
         }
         Vector2 targetCardPos = tileToPos[tile] + direction;
-        GameBoardTile cardNextToId = tileByPos[targetCardPos];
-        if (cardNextToId == null)
+        if (!tileByPos.TryGetValue(targetCardPos, out var cardNextToId))
+        {
+            return null;
+        }
+        if (cardNextToId.card == null)
         {
             return null;
         }
         return cardNextToId.card;
     }
 
+    public List<GameCard> GetLine(GameCard card)
+    {
+        var cardTile = GetCardTile(card);
+        if (cardTile == null)
+        {
+            return null;
+        }
+        int line = cardTile.y;
+        var cards = new List<GameCard>();
+        for (int i = 0; i < BOARD_WIDTH; i += 1)
+        {
+            var position = new Vector2(i, line);
+            var tile = tileByPos[position];
+            if (tile != null && tile.card != null)
+            {
+                cards.Add(tile.card);
+            }
+        }
+        return cards;
+    }
+
     public GameCard GetLeft(GameCard card)
     {
         return GetCardNextToIt(card, new Vector2(-1, 0));
     }
+
     public GameCard GetRight(GameCard card)
     {
-        return GetCardNextToIt(card, new Vector2(-1, 0));
+        return GetCardNextToIt(card, new Vector2(1, 0));
 
     }
+
     public GameCard GetUp(GameCard card)
     {
         return GetCardNextToIt(card, new Vector2(0, 1));
     }
+
     public GameCard GetDown(GameCard card)
     {
         return GetCardNextToIt(card, new Vector2(0, -1));

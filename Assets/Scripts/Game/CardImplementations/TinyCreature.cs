@@ -1,3 +1,3 @@
-public class TinyCreature : CardBehavior
+public class TinyCreature : GameCard
 {
 }

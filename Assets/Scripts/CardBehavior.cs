@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public abstract class CardBehavior : MonoBehaviour
+public class CardBehavior : MonoBehaviour
 {
     public GameCard card;
 

@@ -10,7 +10,7 @@ public class GamePlayer
 
     public GamePlayer(int id, CardsCatalog catalog)
     {
-        deck = new GamePlayerDeck(id, catalog);
+        deck = new GamePlayerDeck(id, board, catalog);
         this.id = id;
         stats = new GamePlayerStats();
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
@@ -59,7 +59,8 @@ public class GamePlayer
         {
             return false;
         }
-        if (!ConsumeMana(card.GetCardStats().mana)) {
+        if (!ConsumeMana(card.GetCardStats().mana))
+        {
             return false;
         }
         board.PlaceCard(tile, card);

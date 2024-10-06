@@ -1,0 +1,64 @@
+using System.Collections.Generic;
+
+public class BulwarkProtector : GameCard
+{
+  public BulwarkProtector()
+  {
+    GameBridge.instance.onPlaced.AddListener(OnPlaced);
+    GameBridge.instance.onKilled.AddListener(OnKilled);
+  }
+
+  private int HealthAbsorber(int amount)
+  {
+    var killed = LoseHealth(amount);
+    if (killed)
+    {
+      return -stats.health;
+    }
+    return amount;
+  }
+
+  private void ComputeHealthAbsorber()
+  {
+    var cards = new List<GameCard>() { board.GetLeft(this), board.GetRight(this), board.GetDown(this), board.GetUp(this), };
+    foreach (var card in cards)
+    {
+      if (card == null)
+      {
+        continue;
+      }
+      if (card.HasHealthAbsorber(HealthAbsorber))
+      {
+        continue;
+      }
+      card.RegisterHealthAbsorber(HealthAbsorber);
+    }
+  }
+
+  private void RemoveHealthAbsorber()
+  {
+    var cards = new List<GameCard>() { board.GetLeft(this), board.GetRight(this), board.GetDown(this), board.GetUp(this), };
+    foreach (var card in cards)
+    {
+      if (card == null)
+      {
+        continue;
+      }
+      card.RemoveHealthAbsorber(HealthAbsorber);
+    }
+  }
+
+  private void OnPlaced(GameCard placed)
+  {
+    ComputeHealthAbsorber();
+  }
+
+  private void OnKilled(GameCard killed)
+  {
+    if (!IsSelf(killed))
+    {
+      return;
+    }
+    RemoveHealthAbsorber();
+  }
+}
