@@ -20,6 +20,8 @@ public class BulwarkProtector : GameCard
     return amount;
   }
 
+  // Potentially increment mana each turn
+
   private void ComputeHealthAbsorber()
   {
     var cards = new List<GameCard>() { board.GetLeft(this), board.GetRight(this), board.GetDown(this), board.GetUp(this), };

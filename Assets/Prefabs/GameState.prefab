@@ -34,7 +34,7 @@ Transform:
   - {fileID: 7002035396113609154}
   - {fileID: 9048370386195225127}
   - {fileID: 546972604888138638}
-  - {fileID: 20345049598508155}
+  - {fileID: 215841991758328927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9157358596365286641
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2d938e167e24dafa4a8bce50425fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catalog: {fileID: 676751229845450361}
+  catalog: {fileID: 851982128297059933}
 --- !u!1001 &764348387357808826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,7 +278,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6154287133257185105, guid: 1e30fae776d134a06994820331104ffa, type: 3}
   m_PrefabInstance: {fileID: 902627643654662400}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3128118919226827305
+--- !u!1001 &3017371095313295885
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -286,14 +286,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8064175033969254900}
     m_Modifications:
-    - target: {fileID: 2453619833331158096, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-      propertyPath: cardInfos.Array.data[0].count
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2453619833331158096, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-      propertyPath: cardInfos.Array.data[1].count
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3107774166928989778, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.006420453
@@ -338,20 +330,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeckBuilder
       objectReference: {fileID: 0}
+    - target: {fileID: 7974235688586872964, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
---- !u!4 &20345049598508155 stripped
+--- !u!4 &215841991758328927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3107774166928989778, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-  m_PrefabInstance: {fileID: 3128118919226827305}
+  m_PrefabInstance: {fileID: 3017371095313295885}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &676751229845450361 stripped
+--- !u!114 &851982128297059933 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2453619833331158096, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-  m_PrefabInstance: {fileID: 3128118919226827305}
+  m_PrefabInstance: {fileID: 3017371095313295885}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
