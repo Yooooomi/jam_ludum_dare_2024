@@ -29,8 +29,8 @@ public class GameState
 
     public void EndTurn()
     {
-        GameBridge.instance.onTurnEnd.Invoke(playerTurn);
         playerTurn = (playerTurn + 1) % 2;
+        GameBridge.instance.onTurnEnd.Invoke((playerTurn + 1) % 2);
         GameBridge.instance.onTurnBegin.Invoke(playerTurn);
     }
 

@@ -14,25 +14,8 @@ public class ManaDisplay : MonoBehaviour
     private void Awake()
     {
         player = GetComponentInParent<PlayerInstance>();
-        DelayedGameBridge.instance.onHeroStatChange.AddListener(OnPlaced);
-        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
-        DelayedGameBridge.instance.onKilled.AddListener(OnKilled);
+        DelayedGameBridge.instance.onAll.AddListener(ComputeMana);
         baseColor = manaGems[0].sharedMaterial.color;
-    }
-
-    private void OnPlaced(GamePlayer player)
-    {
-        ComputeMana();
-    }
-
-    private void OnTurnEnd(int playerId)
-    {
-        ComputeMana();
-    }
-
-    private void OnKilled(GameCard card, GameCard from)
-    {
-        ComputeMana();
     }
 
     private void ComputeMana()
