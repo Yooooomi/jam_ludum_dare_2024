@@ -22,7 +22,7 @@ public class GameState
     {
         foreach (var player in players)
         {
-            player.DrawCards(1);
+            player.DrawCards(2);
         }
         GameBridge.instance.onTurnBegin.Invoke(playerTurn);
     }
