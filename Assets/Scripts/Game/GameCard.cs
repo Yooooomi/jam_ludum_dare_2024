@@ -35,11 +35,6 @@ public class GameCard
     public CardInfo info;
     public GameBoard board;
 
-    public GameCard()
-    {
-        GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
-    }
-
     public void Setup(int playerId, GameBoard playerBoard, GameCardStats stats, CardInfo info)
     {
         this.playerId = playerId;
@@ -53,14 +48,11 @@ public class GameCard
         return this == other;
     }
 
-    private void OnTurnBegin(int playerId)
+    public void IncreaseLifetime()
     {
-        if (this.playerId != playerId)
-        {
-            return;
-        }
         lifetime += 1;
     }
+
 
     public GameCardStats GetBaseStats()
     {

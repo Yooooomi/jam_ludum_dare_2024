@@ -8,10 +8,13 @@ public class GameBoard
     private const int BOARD_HEIGHT = 2;
     private readonly Dictionary<Vector2, GameBoardTile> tileByPos = new();
     private readonly Dictionary<GameBoardTile, Vector2> tileToPos = new();
+    private readonly int playerId;
 
-    public GameBoard()
+    public GameBoard(int playerId)
     {
+        this.playerId = playerId;
         GameBridge.instance.onKilled.AddListener(OnKilled);
+        GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
         for (int x = 0; x < BOARD_WIDTH; x += 1)
         {
             for (int y = 0; y < BOARD_HEIGHT; y += 1)
@@ -21,6 +24,23 @@ public class GameBoard
                 tileByPos[pos] = tile;
                 tileToPos[tile] = pos;
             }
+        }
+    }
+
+    private void OnTurnBegin(int turnPlayerId)
+    {
+        if (playerId != turnPlayerId)
+        {
+            return;
+        }
+        foreach (var tile in tileByPos.Values)
+        {
+            var card = tile.card;
+            if (card == null)
+            {
+                continue;
+            }
+            card.IncreaseLifetime();
         }
     }
 

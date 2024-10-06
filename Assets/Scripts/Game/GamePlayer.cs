@@ -5,11 +5,12 @@ public class GamePlayer
     public readonly int id;
     public readonly GamePlayerStats stats;
     public readonly GamePlayerDeck deck;
-    public readonly GameBoard board = new();
+    public readonly GameBoard board;
     public readonly List<GameCard> hand = new();
 
     public GamePlayer(int id, CardsCatalog catalog)
     {
+        board = new GameBoard(id);
         deck = new GamePlayerDeck(id, board, catalog);
         this.id = id;
         stats = new GamePlayerStats();
