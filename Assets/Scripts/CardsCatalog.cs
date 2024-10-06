@@ -60,6 +60,7 @@ public class CardsCatalog : MonoBehaviour
         return card;
     }
 
+    #if UNITY_EDITOR
     [CustomEditor(typeof(CardsCatalog))]
     public class ButtonInspector : Editor
     {
@@ -73,6 +74,7 @@ public class CardsCatalog : MonoBehaviour
             }
         }
     }
+    #endif
 
     private void GenerateAllCards()
     {
