@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class DelayedAction
@@ -12,7 +13,7 @@ public class DelayedAction
 
 public class GameOnAll : UnityEvent { }
 
-public class DelayedGameBridge
+public class DelayedGameBridge : MonoBehaviour
 {
   public static DelayedGameBridge instance;
   public GameOnPlaced onPlaced = new();
@@ -29,7 +30,7 @@ public class DelayedGameBridge
 
   private readonly List<DelayedAction> queue = new();
 
-  private async void Dequeue()
+  private IEnumerator Dequeue()
   {
     while (true)
     {
@@ -38,9 +39,9 @@ public class DelayedGameBridge
       foreach (var action in temp)
       {
         action.action();
-        await Task.Delay(action.ms);
+        yield return new WaitForSeconds(action.ms / 1000f);
       }
-      await Task.Delay(50);
+      yield return new WaitForSeconds(0.05f);
     }
   }
 
@@ -71,8 +72,9 @@ public class DelayedGameBridge
     }, ms));
   }
 
-  public DelayedGameBridge()
+  public void Awake()
   {
+    instance = this;
     Bind(GameBridge.instance.onPlaced, onPlaced, 100);
     Bind2(GameBridge.instance.onKilled, onKilled, 100);
     Bind(GameBridge.instance.onTurnBegin, onTurnBegin, 200);
@@ -82,12 +84,7 @@ public class DelayedGameBridge
     Bind(GameBridge.instance.onPlayerDrawCard, onPlayerDrawCard, 100);
     Bind2(GameBridge.instance.onHeroAttack, onHeroAttack, 500);
     Bind(GameBridge.instance.onHeroStatChange, onHeroStatChange, 100);
-    Dequeue();
-  }
-
-  public static void Initialize()
-  {
-    instance = new();
+    StartCoroutine(Dequeue());
   }
 
   public void Clear()
