@@ -21,10 +21,13 @@ public enum CardBehaviorType
     HeartwoodShielder,
     BladeleafWatcher,
     SoulmenderKeeper,
-    Shiftwarden,
     LifeweaverGuardian,
     VerdantSummoner,
     BulwarkProtector,
+    BloodbondBoon,
+    DeathsInsight,
+    HasteOfTheWilds,
+    DoombringersCountdown,
 }
 
 [Serializable]

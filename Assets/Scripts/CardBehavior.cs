@@ -18,7 +18,7 @@ public class CardBehavior : MonoBehaviour
         DelayedGameBridge.instance.onKilled.AddListener(OnKilled);
     }
 
-    private void OnKilled(GameCard card)
+    private void OnKilled(GameCard card, GameCard from)
     {
         if (this.card != card)
         {

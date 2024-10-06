@@ -67,7 +67,7 @@ public class DelayedGameBridge
   public DelayedGameBridge()
   {
     Bind(GameBridge.instance.onPlaced, onPlaced, 100);
-    Bind(GameBridge.instance.onKilled, onKilled, 100);
+    Bind2(GameBridge.instance.onKilled, onKilled, 100);
     Bind(GameBridge.instance.onTurnBegin, onTurnBegin, 200);
     Bind(GameBridge.instance.onTurnEnd, onTurnEnd, 100);
     Bind2(GameBridge.instance.onCardStatChange, onCardStatChange, 100);

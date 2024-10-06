@@ -16,6 +16,7 @@ public class GamePlayer
         this.id = id;
         stats = new GamePlayerStats();
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
+        GameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
     }
 
     public bool HasInHand(GameCard card)
@@ -31,6 +32,15 @@ public class GamePlayer
         }
     }
 
+    public void OnTurnEnd(int playerId)
+    {
+        if (id != playerId)
+        {
+            return;
+        }
+        stats.mana = stats.maxMana;
+    }
+
     public void OnTurnBegin(int playerId)
     {
         if (id != playerId)
@@ -38,12 +48,17 @@ public class GamePlayer
             return;
         }
         DrawCards(2);
-        stats.mana = stats.maxMana;
     }
 
     private bool CanConsumeMana(int amount)
     {
         return amount <= stats.mana;
+    }
+
+    public void RewardMana(int amount)
+    {
+        stats.mana = Mathf.Clamp(stats.mana + amount, 0, stats.maxMana);
+        GameBridge.instance.onHeroStatChange.Invoke(this);
     }
 
     public bool ConsumeMana(int amount)

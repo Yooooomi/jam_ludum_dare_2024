@@ -4,7 +4,7 @@ public class HeartwoodShielder : PerTurnCardBuffer
 {
   protected override List<GameCard> GetCardsToBuff()
   {
-    return Right();
+    return Left();
   }
 
   protected override GameCardStats Modifier(GameCardStats stats, GameCardStats rawStats)

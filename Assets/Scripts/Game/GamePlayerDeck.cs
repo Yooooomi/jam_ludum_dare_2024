@@ -47,33 +47,24 @@ public class GamePlayerDeck
 
   private static GameCard GetGameCardFromBehavior(GameCardStats stats, CardInfo info)
   {
-    switch (info.cardBehaviorType)
+    return info.cardBehaviorType switch
     {
-      case CardBehaviorType.TinyCreature:
-        return new TinyCreature();
-      case CardBehaviorType.MightGuardian:
-        return new MightGuardian();
-      case CardBehaviorType.ValorWarden:
-        return new ValorWarden();
-      case CardBehaviorType.IronbarkProtector:
-        return new IronbarkProtector();
-      case CardBehaviorType.LifetenderSentinel:
-        return new LifetenderSentinel();
-      case CardBehaviorType.HeartwoodShielder:
-        return new HeartwoodShielder();
-      case CardBehaviorType.BladeleafWatcher:
-        return new BladeleafWatcher();
-      case CardBehaviorType.SoulmenderKeeper:
-        return new SoulmenderKeeper();
-      case CardBehaviorType.Shiftwarden:
-        return new Shiftwarden();
-      case CardBehaviorType.LifeweaverGuardian:
-        return new LifeweaverGuardian();
-      case CardBehaviorType.VerdantSummoner:
-        return new VerdantSummoner();
-      case CardBehaviorType.BulwarkProtector:
-        return new BulwarkProtector();
-    }
-    return new GameCard();
+      CardBehaviorType.TinyCreature => new TinyCreature(),
+      CardBehaviorType.MightGuardian => new MightGuardian(),
+      CardBehaviorType.ValorWarden => new ValorWarden(),
+      CardBehaviorType.IronbarkProtector => new IronbarkProtector(),
+      CardBehaviorType.LifetenderSentinel => new LifetenderSentinel(),
+      CardBehaviorType.HeartwoodShielder => new HeartwoodShielder(),
+      CardBehaviorType.BladeleafWatcher => new BladeleafWatcher(),
+      CardBehaviorType.SoulmenderKeeper => new SoulmenderKeeper(),
+      CardBehaviorType.LifeweaverGuardian => new LifeweaverGuardian(),
+      CardBehaviorType.VerdantSummoner => new VerdantSummoner(),
+      CardBehaviorType.BulwarkProtector => new BulwarkProtector(),
+      CardBehaviorType.BloodbondBoon => new BloodbondBoon(),
+      CardBehaviorType.DeathsInsight => new DeathsInsight(),
+      CardBehaviorType.HasteOfTheWilds => new HasteOfTheWilds(),
+      CardBehaviorType.DoombringersCountdown => new DoombringersCountdown(),
+      _ => new GameCard(),
+    };
   }
 }

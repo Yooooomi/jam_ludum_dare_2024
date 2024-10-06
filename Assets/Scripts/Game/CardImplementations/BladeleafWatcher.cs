@@ -4,7 +4,7 @@ public class BladeleafWatcher : PerTurnCardBuffer
 {
   protected override List<GameCard> GetCardsToBuff()
   {
-    return Left();
+    return Right();
   }
 
   protected override GameCardStats Modifier(GameCardStats stats, GameCardStats rawStats)

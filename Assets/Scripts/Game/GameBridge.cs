@@ -1,7 +1,8 @@
 using UnityEngine.Events;
 
 public class GameOnPlaced : UnityEvent<GameCard> { }
-public class GameOnKilled : UnityEvent<GameCard> { }
+// victim, from
+public class GameOnKilled : UnityEvent<GameCard, GameCard> { }
 public class GameOnTurnBegin : UnityEvent<int> { }
 public class GameOnTurnEnd : UnityEvent<int> { }
 public class GameOnCardStatChange : UnityEvent<GameCard, GameCardStats> { }

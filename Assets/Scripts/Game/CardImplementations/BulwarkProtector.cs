@@ -10,7 +10,7 @@ public class BulwarkProtector : GameCard
 
   private int HealthAbsorber(int amount)
   {
-    var killed = LoseHealth(amount);
+    var killed = LoseHealth(amount, this);
     if (killed)
     {
       return -stats.health;
@@ -53,7 +53,7 @@ public class BulwarkProtector : GameCard
     ComputeHealthAbsorber();
   }
 
-  private void OnKilled(GameCard killed)
+  private void OnKilled(GameCard killed, GameCard from)
   {
     if (!IsSelf(killed))
     {

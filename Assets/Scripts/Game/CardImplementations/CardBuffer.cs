@@ -33,7 +33,7 @@ public abstract class CardBuffer : GameCard
   protected abstract GameCardStats Modifier(GameCardStats stats, GameCardStats rawStats);
   protected virtual void OnApplied(GameCard to) { }
 
-  private List<GameCard> buffed = new();
+  private readonly List<GameCard> buffed = new();
 
   private void ApplyBuff(GameCard to)
   {
@@ -72,7 +72,7 @@ public abstract class CardBuffer : GameCard
     ComputeBuffs();
   }
 
-  private void OnKilled(GameCard killed)
+  private void OnKilled(GameCard killed, GameCard from)
   {
     if (!IsSelf(killed))
     {

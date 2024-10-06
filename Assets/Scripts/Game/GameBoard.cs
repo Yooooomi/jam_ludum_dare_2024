@@ -138,7 +138,7 @@ public class GameBoard
         return null;
     }
 
-    private void OnKilled(GameCard card)
+    private void OnKilled(GameCard card, GameCard from)
     {
         CardRemoved(card);
     }

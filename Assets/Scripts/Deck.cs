@@ -64,13 +64,11 @@ public class Deck : MonoBehaviour
 
     private void OnOurHeroClicked()
     {
-        Debug.Log("Our hero clicked");
         ChangeCardSelection(null);
     }
 
     private void OnTheirHeroClicked()
     {
-        Debug.Log("Their hero clicked");
         if (selectedCard == null || selectedCard.location != SelectedCard.Location.OUR)
         {
             ChangeCardSelection(null);
@@ -146,17 +144,17 @@ public class Deck : MonoBehaviour
         {
             return;
         }
-        var ourBoardTile = GameState.instance.GetPlayer(playerId).board.GetCardTile(card.card);
+        var player = GameState.instance.GetPlayer(playerId);
+        var ourBoardTile = player.board.GetCardTile(card.card);
         if (ourBoardTile != null)
         {
-            if (selectedCard != null && selectedCard.card == card)
-            {
-                ChangeCardSelection(null);
-            }
-            else
+            var isNewCardOrNotAlreadyChosen = selectedCard == null || selectedCard.card != card;
+            if (isNewCardOrNotAlreadyChosen && player.CanPlayCard(card.card))
             {
                 ChangeCardSelection(new SelectedCard(SelectedCard.Location.OUR, card));
+                return;
             }
+            ChangeCardSelection(null);
             return;
         }
 
