@@ -10,11 +10,15 @@ public class DeckRenderer : MonoBehaviour
     [SerializeField]
     private float cardOffset;
     [SerializeField]
-    private float selectedOffset;
+    private Vector3 selectedOffset;
+    [SerializeField]
+    private float selectedScale;
     [SerializeField]
     private float angle;
     private Deck deck;
     private PlayerBoard ourBoard;
+    [SerializeField]
+    private bool reverse;
 
     private void Awake()
     {
@@ -71,25 +75,25 @@ public class DeckRenderer : MonoBehaviour
 
     private void UpdateDeck()
     {
-        var center = deck.hand.Count * cardOffset / 2;
         var deckHandPosition = deck.deckHand.position;
+        int reverseInt = reverse ? -1 : 1;
 
         for (int i = 0; i < deck.hand.Count; i += 1)
         {
             var card = deck.hand[i];
             var selected = deck.selectedCard != null && deck.selectedCard.card == card;
-            var height = selected ? selectedOffset : 0;
+            var height = selected ? selectedOffset.z * reverseInt  : 0;
             var finalAngle = selected ? 0 : angle;
             var cardAnimation = card.GetComponent<CardPositionAnimation>();
 
             var position = new Vector3(
-                deckHandPosition.x + i * cardOffset - center,
-                handYOffset,
+                deckHandPosition.x + i * cardOffset * -1 + (selected ? selectedOffset.x : 0),
+                handYOffset + (selected ? selectedOffset.y : 0),
                 deckHandPosition.z + height
             );
             var rotation = Quaternion.Euler(0, 0, finalAngle);
 
-            cardAnimation.GoTo(position, rotation);
+            cardAnimation.GoTo(position, rotation, scale: selected ? selectedScale : 1.0f);
         }
 
         var tiles = ourBoard.GetTiles();
