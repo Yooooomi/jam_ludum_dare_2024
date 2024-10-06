@@ -29,8 +29,6 @@ public class DelayedGameBridge
 
   private readonly List<DelayedAction> queue = new();
 
-  private TaskCompletionSource<bool> dequeueEvent = new(false);
-
   private async void Dequeue()
   {
     while (true)
@@ -42,8 +40,7 @@ public class DelayedGameBridge
         action.action();
         await Task.Delay(action.ms);
       }
-      await dequeueEvent.Task;
-      dequeueEvent = new(false);
+      await Task.Delay(50);
     }
   }
 
@@ -54,7 +51,6 @@ public class DelayedGameBridge
       action = action,
       ms = ms,
     });
-    dequeueEvent.TrySetResult(true);
   }
 
   private void Bind<T>(UnityEvent<T> source, UnityEvent<T> to, int ms)
@@ -97,6 +93,5 @@ public class DelayedGameBridge
   public void Clear()
   {
     queue.Clear();
-    dequeueEvent.TrySetResult(true);
   }
 }
