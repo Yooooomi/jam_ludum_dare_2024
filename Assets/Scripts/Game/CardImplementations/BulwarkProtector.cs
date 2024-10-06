@@ -10,13 +10,14 @@ public class BulwarkProtector : GameCard
 
   private readonly List<GameCard> buffed = new();
 
-  private int HealthAbsorber(int amount)
+  private int HealthAbsorber(int amount, GameCard attacker)
   {
     var killed = LoseHealth(amount, this);
     if (killed)
     {
       return -stats.health;
     }
+    Attack(attacker);
     return amount;
   }
 
