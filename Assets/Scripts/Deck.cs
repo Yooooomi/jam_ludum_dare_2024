@@ -68,7 +68,8 @@ public class Deck : MonoBehaviour
 
     private void OnPlayerDrawCard(GameCard card)
     {
-        if (card.playerId != playerId) {
+        if (card.playerId != playerId)
+        {
             return;
         }
         var cardGameobject = CardsCatalog.instance.InstantiateCard(card.info);
@@ -96,12 +97,17 @@ public class Deck : MonoBehaviour
         if (selectedCard.location == SelectedCard.Location.HAND)
         {
             GameState.instance.GetPlayer(playerId).PlayCard(tile.tile, selectedCard.card.card);
-            ChangeCardSelection(null);
         }
+        ChangeCardSelection(null);
     }
 
     private void OnTheirBoardClick(BoardTile tile)
     {
+        if (!GameState.instance.MyTurn(playerId))
+        {
+            return;
+        }
+        ChangeCardSelection(null);
     }
 
     private void ChangeCardSelection(SelectedCard selectedCard)
@@ -119,12 +125,18 @@ public class Deck : MonoBehaviour
         var ourBoardTile = GameState.instance.GetPlayer(playerId).board.GetCardTile(card.card);
         if (ourBoardTile != null)
         {
-            ChangeCardSelection(new SelectedCard(SelectedCard.Location.OUR, card));
+            if (selectedCard != null && selectedCard.card == card)
+            {
+                ChangeCardSelection(null);
+            }
+            else
+            {
+                ChangeCardSelection(new SelectedCard(SelectedCard.Location.OUR, card));
+            }
             return;
         }
 
         var theirBoardTile = GameState.instance.GetOtherPlayer(playerId).board.GetCardTile(card.card);
-        Debug.Log($"{playerId} Their {theirBoardTile} {(theirBoardTile != null ? theirBoardTile.HoldsCard() : "none")} {selectedCard} {(selectedCard != null ? selectedCard.location : "none")}");
         if (
             // Their board has a tile containing the card
             theirBoardTile != null && theirBoardTile.HoldsCard() &&
@@ -134,9 +146,12 @@ public class Deck : MonoBehaviour
         {
             if (!selectedCard.card.card.CanAttack())
             {
+                ChangeCardSelection(null);
                 return;
             }
             selectedCard.card.card.Attack(theirBoardTile.card);
+            // Assigning instead of calling function to avoid triggering an animation
+            selectedCard = null;
             return;
         }
 

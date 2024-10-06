@@ -31,7 +31,7 @@ public class BoardGenerator : MonoBehaviour
         while (tileContainer.childCount > 0) {
             maxxxx++;
             DestroyImmediate(tileContainer.GetChild(0).gameObject);
-            if (maxxxx > 10000000) {
+            if (maxxxx > 1000) {
                 Debug.Log("CRINGGGEEE");
                 return;
             }

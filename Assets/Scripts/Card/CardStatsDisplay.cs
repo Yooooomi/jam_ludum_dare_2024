@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -32,6 +30,10 @@ public class CardStatsDisplay : MonoBehaviour
         card = GetComponent<CardBehavior>();
         DelayedGameBridge.instance.onCardStatChange.AddListener(onDamageTaken);
         UpdateStats();
+        nameText.text = card.card.info.name;
+        UpdateText(nameText);
+        descText.text = card.card.info.description;
+        UpdateText(descText);
     }
 
     private void onDamageTaken(GameCard card)
@@ -41,11 +43,6 @@ public class CardStatsDisplay : MonoBehaviour
             return;
         }
         UpdateStats();
-
-        nameText.text = card.info.name;
-        UpdateText(nameText);
-        descText.text = card.info.description;
-        UpdateText(descText);
     }
 
     private void UpdateText(TextMeshProUGUI text)

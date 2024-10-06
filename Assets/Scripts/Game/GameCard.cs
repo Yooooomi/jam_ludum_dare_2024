@@ -61,7 +61,7 @@ public class GameCard
         return cloned;
     }
 
-    public bool LoseHealth(int damage)
+    private bool LoseHealth(int damage)
     {
         stats.health -= damage;
         if (stats.health > 0)
@@ -75,10 +75,18 @@ public class GameCard
         return stats.health <= damage;
     }
 
+    public bool GetAttacked(GameCard attacker)
+    {
+        var killed = LoseHealth(attacker.GetCardStats().damage);
+        attacker.LoseHealth(GetCardStats().damage);
+        return killed;
+    }
+
     public bool Attack(GameCard target)
     {
-        GameBridge.instance.onAttack.Invoke(this);
-        var killed = target.LoseHealth(ComputeCardStats().damage);
+        GameBridge.instance.onAttack.Invoke(this, target);
+        var killed = target.GetAttacked(this);
+        lastLifetimeAttack = lifetime;
         return killed;
     }
 

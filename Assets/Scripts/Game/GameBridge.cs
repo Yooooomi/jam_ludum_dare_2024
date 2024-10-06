@@ -4,10 +4,8 @@ public class GameOnPlaced : UnityEvent<GameCard> { }
 public class GameOnKilled : UnityEvent<GameCard> { }
 public class GameOnTurnBegin : UnityEvent<int> { }
 public class GameOnTurnEnd : UnityEvent<int> { }
-// victim
 public class GameOnCardStatChange : UnityEvent<GameCard> { }
-// from
-public class GameOnAttack : UnityEvent<GameCard> { }
+public class GameOnAttack : UnityEvent<GameCard, GameCard> { }
 public class GameOnPlayerDrawCard : UnityEvent<GameCard> { }
 
 public class GameBridge

@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ccb8a8dffe04be1ac564fa29761d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardYOffset: 1.5
   handYOffset: 2
   cardOffset: 1.6
   selectedOffset: 1.1

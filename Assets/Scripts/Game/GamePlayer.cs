@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class GamePlayer
 {
@@ -56,12 +55,11 @@ public class GamePlayer
         {
             return false;
         }
-        if (stats.mana < card.GetCardStats().mana)
+        if (!board.CanPlaceCard(tile, card))
         {
             return false;
         }
-        if (!board.CanPlaceCard(tile, card))
-        {
+        if (!ConsumeMana(card.GetCardStats().mana)) {
             return false;
         }
         board.PlaceCard(tile, card);
