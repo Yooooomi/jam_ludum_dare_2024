@@ -581,9 +581,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 4342685224908067295}
-  healthBuffedColor: {r: 0.07375908, g: 1, b: 0, a: 0}
+  healthBuffedColor: {r: 0.07375908, g: 1, b: 0, a: 1}
   damageText: {fileID: 4197289632545366487}
-  damageBuffedColor: {r: 0.07450981, g: 1, b: 0, a: 0}
+  damageBuffedColor: {r: 0.07450981, g: 1, b: 0, a: 1}
   manaText: {fileID: 206211985264124518}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 0.2
