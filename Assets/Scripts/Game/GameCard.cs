@@ -26,7 +26,8 @@ public struct GameCardStats
 public class GameCard
 {
     private readonly List<Func<GameCardStats, GameCardStats, GameCardStats>> modifiers = new();
-    private readonly List<Func<int, int>> healthAbsorbers = new();
+    // damage, attacker
+    private readonly List<Func<int, GameCard, int>> healthAbsorbers = new();
 
     protected GameCardStats stats;
 
@@ -82,8 +83,9 @@ public class GameCard
     protected bool LoseHealth(int damage, GameCard from)
     {
         var firstHealthAbsorber = healthAbsorbers.FirstOrDefault();
-        if (firstHealthAbsorber != null) {
-            firstHealthAbsorber(damage);
+        if (firstHealthAbsorber != null)
+        {
+            firstHealthAbsorber(damage, from);
             return false;
         }
         var before = GetCardStats();
@@ -169,12 +171,12 @@ public class GameCard
         GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
     }
 
-    public bool HasHealthAbsorber(Func<int, int> modifier)
+    public bool HasHealthAbsorber(Func<int, GameCard, int> modifier)
     {
         return healthAbsorbers.Contains(modifier);
     }
 
-    public void RegisterHealthAbsorber(Func<int, int> modifier)
+    public void RegisterHealthAbsorber(Func<int, GameCard, int> modifier)
     {
         // if (IsSpectator())
         // {
@@ -183,7 +185,7 @@ public class GameCard
         healthAbsorbers.Add(modifier);
     }
 
-    public void RemoveHealthAbsorber(Func<int, int> modifier)
+    public void RemoveHealthAbsorber(Func<int, GameCard, int> modifier)
     {
         healthAbsorbers.Remove(modifier);
     }
