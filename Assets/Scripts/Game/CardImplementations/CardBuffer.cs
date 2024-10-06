@@ -57,7 +57,6 @@ public abstract class CardBuffer : GameCard
       {
         continue;
       }
-      Debug.Log($"{playerId} Applying buff");
       ApplyBuff(to);
     }
   }

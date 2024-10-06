@@ -194,4 +194,14 @@ public class GameCard
     {
         healthAbsorbers.Remove(modifier);
     }
+
+    public bool IsHealthBuffed()
+    {
+        return GetBaseStats().maxHealth < GetCardStats().maxHealth;
+    }
+
+    public bool IsDamageBuffed()
+    {
+        return GetBaseStats().damage < GetCardStats().damage;
+    }
 }

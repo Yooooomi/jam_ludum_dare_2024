@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -33,6 +34,8 @@ public class CardStatsDisplay : MonoBehaviour
 
     private float defaultTextScale;
     private float defaultZ;
+
+    private readonly Dictionary<TextMeshProUGUI, Coroutine> coroutines = new();
 
     void Start()
     {
@@ -88,8 +91,11 @@ public class CardStatsDisplay : MonoBehaviour
 
     private void AnimateText(TextMeshProUGUI text, string newText)
     {
-        StopAllCoroutines();
-        StartCoroutine(EnumeratorAnimateText(text, newText));
+        if (coroutines.TryGetValue(text, out var coroutine))
+        {
+            StopCoroutine(coroutine);
+        }
+        coroutines[text] = StartCoroutine(EnumeratorAnimateText(text, newText));
     }
 
     private void OnStatChange(GameCard card, GameCardStats diff)
@@ -119,7 +125,7 @@ public class CardStatsDisplay : MonoBehaviour
 
     private void UpdateBuffed()
     {
-        damageText.color = card.IsDamageBuffed() ? damageBuffedColor : defaultColor;
-        healthText.color = card.IsHealthBuffed() ? healthBuffedColor : defaultColor;
+        damageText.color = card.card.IsDamageBuffed() ? damageBuffedColor : defaultColor;
+        healthText.color = card.card.IsHealthBuffed() ? healthBuffedColor : defaultColor;
     }
 }

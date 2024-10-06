@@ -27,14 +27,6 @@ public class CardBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnStatChange(GameCard card, GameCardStats diff)
-    {
-        if (this.card != card)
-        {
-            return;
-        }
-    }
-
     private void Start()
     {
         GameCardToCardBehavior.Add(card, this);
@@ -43,15 +35,5 @@ public class CardBehavior : MonoBehaviour
     private void OnDestroy()
     {
         GameCardToCardBehavior.Remove(card);
-    }
-
-    public bool IsDamageBuffed()
-    {
-        return false;
-    }
-
-    public bool IsHealthBuffed()
-    {
-        return false;
     }
 }
