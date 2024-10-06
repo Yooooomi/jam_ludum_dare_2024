@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardActionabilityDisplay : MonoBehaviour
@@ -13,12 +11,41 @@ public class CardActionabilityDisplay : MonoBehaviour
 
     private CardBehavior card;
 
-    void Start()
+    private void Awake()
+    {
+        DelayedGameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
+        DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
+        DelayedGameBridge.instance.onAttack.AddListener(OnAttack);
+        DelayedGameBridge.instance.onCardStatChange.AddListener(OnCardStatChange);
+        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnBegin);
+    }
+
+    private void Start()
     {
         card = GetComponent<CardBehavior>();
     }
 
-    void Update()
+    private void OnPlaced(GameCard card)
+    {
+        ComputePlayability();
+    }
+
+    private void OnTurnBegin(int playerId)
+    {
+        ComputePlayability();
+    }
+
+    private void OnAttack(GameCard from, GameCard to)
+    {
+        ComputePlayability();
+    }
+
+    private void OnCardStatChange(GameCard card, GameCardStats diff)
+    {
+        ComputePlayability();
+    }
+
+    private void ComputePlayability()
     {
         if (GameState.instance.MyTurn(card.card.playerId) && GameState.instance.GetPlayer(card.card.playerId).CanPlayCard(card.card))
         {
