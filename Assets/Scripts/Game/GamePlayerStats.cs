@@ -1,7 +1,7 @@
 public class GamePlayerStats
 {
-    public int maxHealth = 1;
-    public int health = 1;
+    public int maxHealth = 30;
+    public int health = 30;
     public int maxMana = 3;
     public int mana = 3;
 
