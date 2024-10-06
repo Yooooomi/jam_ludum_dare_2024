@@ -20,6 +20,8 @@ public class DelayedGameBridge
   public GameOnCardStatChange onCardStatChange = new();
   public GameOnAttack onAttack = new();
   public GameOnPlayerDrawCard onPlayerDrawCard = new();
+  public GameOnHeroAttack onHeroAttack = new();
+  public GameOnHeroStatChange onHeroStatChange = new();
 
 
   private readonly List<DelayedAction> queue = new();
@@ -57,7 +59,7 @@ public class DelayedGameBridge
     source.AddListener((T arg) => AddToQueue(() => to.Invoke(arg), ms));
   }
 
-    private void Bind2<T, U>(UnityEvent<T, U> source, UnityEvent<T, U> to, int ms)
+  private void Bind2<T, U>(UnityEvent<T, U> source, UnityEvent<T, U> to, int ms)
   {
     source.AddListener((T arg, U arg1) => AddToQueue(() => to.Invoke(arg, arg1), ms));
   }
@@ -68,9 +70,17 @@ public class DelayedGameBridge
     Bind(GameBridge.instance.onKilled, onKilled, 100);
     Bind(GameBridge.instance.onTurnBegin, onTurnBegin, 200);
     Bind(GameBridge.instance.onTurnEnd, onTurnEnd, 100);
-    Bind(GameBridge.instance.onCardStatChange, onCardStatChange, 100);
+    Bind2(GameBridge.instance.onCardStatChange, onCardStatChange, 100);
     Bind2(GameBridge.instance.onAttack, onAttack, 500);
     Bind(GameBridge.instance.onPlayerDrawCard, onPlayerDrawCard, 100);
+    Bind2(GameBridge.instance.onHeroAttack, onHeroAttack, 500);
+    Bind(GameBridge.instance.onHeroStatChange, onHeroStatChange, 100);
     Dequeue();
+  }
+
+  public void Clear()
+  {
+    queue.Clear();
+    dequeueEvent.TrySetResult(true);
   }
 }

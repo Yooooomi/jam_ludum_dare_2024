@@ -232,6 +232,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630348438447965153, guid: 1e30fae776d134a06994820331104ffa, type: 3}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630348438447965153, guid: 1e30fae776d134a06994820331104ffa, type: 3}
       propertyPath: playerId
       value: 1
       objectReference: {fileID: 0}
@@ -571,6 +575,7 @@ GameObject:
   - component: {fileID: 1615010213}
   - component: {fileID: 1615010212}
   - component: {fileID: 1615010214}
+  - component: {fileID: 1615010215}
   m_Layer: 0
   m_Name: GameState
   m_TagString: Untagged
@@ -623,6 +628,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catalog: {fileID: 1304892929}
+--- !u!114 &1615010215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615010211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df57f0acf18b643668fcf5e3c257475c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 1
+  speed: 2
+  number: {fileID: 3729603669346067, guid: fbd9745023db041e49d3eec16a42a561, type: 3}
 --- !u!1 &1961113830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6154287133257185105, guid: 1e30fae776d134a06994820331104ffa, type: 3}
@@ -680,6 +700,22 @@ PrefabInstance:
     - target: {fileID: 797695277531245198, guid: 1e30fae776d134a06994820331104ffa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727802958355293027, guid: 1e30fae776d134a06994820331104ffa, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727802958355293027, guid: 1e30fae776d134a06994820331104ffa, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313368950923505432, guid: 1e30fae776d134a06994820331104ffa, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313368950923505432, guid: 1e30fae776d134a06994820331104ffa, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6154287133257185105, guid: 1e30fae776d134a06994820331104ffa, type: 3}
       propertyPath: m_Name

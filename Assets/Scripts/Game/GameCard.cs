@@ -9,6 +9,17 @@ public struct GameCardStats
     public int health;
     public int mana;
     public int damage;
+
+    public GameCardStats Difference(GameCardStats other)
+    {
+        return new GameCardStats
+        {
+            maxHealth = maxHealth - other.maxHealth,
+            health = health - other.health,
+            mana = mana - other.mana,
+            damage = damage - other.damage,
+        };
+    }
 }
 
 public class GameCard
@@ -85,16 +96,17 @@ public class GameCard
         {
             return false;
         }
+        var before = GetCardStats();
         stats.health -= damage;
         if (stats.health > 0)
         {
-            GameBridge.instance.onCardStatChange.Invoke(this);
+            GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
         }
         else
         {
             GameBridge.instance.onKilled.Invoke(this);
         }
-        return stats.health <= damage;
+        return stats.health <= 0;
     }
 
     public bool GetAttacked(GameCard attacker)
@@ -112,10 +124,19 @@ public class GameCard
         return killed;
     }
 
+    public bool AttackHero(GamePlayer target)
+    {
+        GameBridge.instance.onHeroAttack.Invoke(this, target);
+        target.GetAttacked(GetCardStats().damage);
+        lastLifetimeAttack = lifetime;
+        return false;
+    }
+
     public void Heal(int amount)
     {
-        stats.health = Mathf.Clamp(stats.health + amount, 0, GetCardStats().maxHealth);
-        GameBridge.instance.onCardStatChange.Invoke(this);
+        var before = GetCardStats();
+        stats.health = Mathf.Clamp(stats.health + amount, 0, before.maxHealth);
+        GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
     }
 
     private bool IsSpectator()
@@ -143,14 +164,16 @@ public class GameCard
         // {
         //     return;
         // }
+        var before = GetCardStats();
         modifiers.Add(modifier);
-        GameBridge.instance.onCardStatChange.Invoke(this);
+        GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
     }
 
     public void RemoveStatModifier(Func<GameCardStats, GameCardStats, GameCardStats> modifier)
     {
+        var before = GetCardStats();
         modifiers.Remove(modifier);
-        GameBridge.instance.onCardStatChange.Invoke(this);
+        GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
     }
 
     public bool HasHealthAbsorber(Func<int, int> modifier)

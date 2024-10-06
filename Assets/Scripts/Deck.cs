@@ -42,7 +42,7 @@ public class Deck : MonoBehaviour
 
     private void Awake()
     {
-        playerId = GetComponent<PlayerInstance>().playerId;
+        playerId = GetComponent<PlayerInstance>().player.id;
         DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
         DelayedGameBridge.instance.onPlayerDrawCard.AddListener(OnPlayerDrawCard);
         DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
@@ -50,10 +50,34 @@ public class Deck : MonoBehaviour
 
     private void Start()
     {
-        ourBoard = RendererGameState.instance.GetPlayer(playerId).GetComponent<PlayerBoard>();
-        theirBoard = RendererGameState.instance.GetOtherPlayer(playerId).GetComponent<PlayerBoard>();
+        var us = RendererGameState.instance.GetPlayer(playerId);
+        var them = RendererGameState.instance.GetOtherPlayer(playerId);
+
+        ourBoard = us.GetComponent<PlayerBoard>();
+        theirBoard = them.GetComponent<PlayerBoard>();
         ourBoard.onTileClicked.AddListener(OnOurBoardClick);
         theirBoard.onTileClicked.AddListener(OnTheirBoardClick);
+
+        us.GetComponentInChildren<Hero>().onClick.AddListener(OnOurHeroClicked);
+        them.GetComponentInChildren<Hero>().onClick.AddListener(OnTheirHeroClicked);
+    }
+
+    private void OnOurHeroClicked()
+    {
+        Debug.Log("Our hero clicked");
+        ChangeCardSelection(null);
+    }
+
+    private void OnTheirHeroClicked()
+    {
+        Debug.Log("Their hero clicked");
+        if (selectedCard == null || selectedCard.location != SelectedCard.Location.OUR)
+        {
+            ChangeCardSelection(null);
+            return;
+        }
+        selectedCard.card.card.AttackHero(GameState.instance.GetOtherPlayer(playerId));
+        selectedCard = null;
     }
 
     private void OnPlaced(GameCard card)

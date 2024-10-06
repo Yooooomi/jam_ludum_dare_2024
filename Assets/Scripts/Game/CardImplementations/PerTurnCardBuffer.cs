@@ -33,10 +33,6 @@ public abstract class PerTurnCardBuffer : GameCard
 
   private void ApplyBuff(GameCard to)
   {
-    if (to.HasStatModifier(Modifier))
-    {
-      return;
-    }
     to.RegisterStatModifier(Modifier);
     OnApplied(to);
   }

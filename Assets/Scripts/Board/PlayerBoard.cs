@@ -17,7 +17,7 @@ public class PlayerBoard : MonoBehaviour
 
     private void Start()
     {
-        var playerId = GetComponentInParent<PlayerInstance>().playerId;
+        var playerId = GetComponentInParent<PlayerInstance>().player.id;
         var gameTiles = GameState.instance.GetPlayer(playerId).board.GetTiles();
         var tiles = boardGenerator.GetTiles();
         for (int i = 0; i < gameTiles.Count; i += 1)

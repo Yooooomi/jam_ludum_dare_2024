@@ -66,4 +66,11 @@ public class GamePlayer
         board.PlaceCard(tile, card);
         return true;
     }
+
+    public bool GetAttacked(int damages)
+    {
+        stats.health -= damages;
+        GameBridge.instance.onHeroStatChange.Invoke(this);
+        return stats.health <= 0;
+    }
 }

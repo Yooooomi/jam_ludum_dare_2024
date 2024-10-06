@@ -27,6 +27,14 @@ public class CardBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnStatChange(GameCard card, GameCardStats diff)
+    {
+        if (this.card != card)
+        {
+            return;
+        }
+    }
+
     private void Start()
     {
         GameCardToCardBehavior.Add(card, this);

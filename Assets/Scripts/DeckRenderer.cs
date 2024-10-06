@@ -27,10 +27,18 @@ public class DeckRenderer : MonoBehaviour
         DelayedGameBridge.instance.onPlayerDrawCard.AddListener(OnPlaced);
         DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
         DelayedGameBridge.instance.onAttack.AddListener(OnAttack);
+        DelayedGameBridge.instance.onHeroAttack.AddListener(OnHeroAttack);
         ourBoard = GetComponent<PlayerBoard>();
     }
 
     private IEnumerator PlayAttackAnimation(CardPositionAnimation aggressor, CardPositionAnimation victim)
+    {
+        aggressor.GoTo(victim.transform.position, Quaternion.identity, 0.15f);
+        yield return new WaitForSeconds(0.15f);
+        UpdateDeck();
+    }
+
+    private IEnumerator PlayHeroAttackAnimation(CardPositionAnimation aggressor, Hero victim)
     {
         aggressor.GoTo(victim.transform.position, Quaternion.identity, 0.15f);
         yield return new WaitForSeconds(0.15f);
@@ -53,6 +61,25 @@ public class DeckRenderer : MonoBehaviour
             return;
         }
         StartCoroutine(PlayAttackAnimation(aggressorAnimation, victimAnimation));
+    }
+
+
+    private void OnHeroAttack(GameCard aggressor, GamePlayer victim)
+    {
+        var aggressorCard = CardBehavior.FromGameCard(aggressor);
+        var victimPlayerInstance = PlayerInstance.FromGamePlayer(victim);
+
+        if (aggressorCard == null || victimPlayerInstance == null)
+        {
+            return;
+        }
+        var aggressorAnimation = aggressorCard.GetComponent<CardPositionAnimation>();
+        var victimHero = victimPlayerInstance.GetComponentInChildren<Hero>();
+        if (aggressorAnimation == null || victimHero == null)
+        {
+            return;
+        }
+        StartCoroutine(PlayHeroAttackAnimation(aggressorAnimation, victimHero));
     }
 
     private void OnPlaced(GameCard card)
