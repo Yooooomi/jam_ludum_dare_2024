@@ -38,7 +38,6 @@ public class EndOfTurn : MonoBehaviour
 
     private void OnTurnEnd(int unused_player_id)
     {
-        Debug.Log("OnTurnEnd");
         startedAtNextTurn = Time.time;
     }
 
