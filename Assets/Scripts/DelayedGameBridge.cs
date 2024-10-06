@@ -12,7 +12,7 @@ public class DelayedAction
 
 public class DelayedGameBridge
 {
-  public static DelayedGameBridge instance = new();
+  public static DelayedGameBridge instance;
   public GameOnPlaced onPlaced = new();
   public GameOnKilled onKilled = new();
   public GameOnTurnBegin onTurnBegin = new();
@@ -76,6 +76,11 @@ public class DelayedGameBridge
     Bind2(GameBridge.instance.onHeroAttack, onHeroAttack, 500);
     Bind(GameBridge.instance.onHeroStatChange, onHeroStatChange, 100);
     Dequeue();
+  }
+
+  public static void Initialize()
+  {
+    instance = new();
   }
 
   public void Clear()

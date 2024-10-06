@@ -9,6 +9,7 @@ public class Entrypoint : MonoBehaviour
     private void Awake()
     {
         GameState.InitGameState(catalog);
+        DelayedGameBridge.Initialize();
         DelayedGameBridge.instance.onHeroStatChange.AddListener(OnHeroStatChange);
     }
 

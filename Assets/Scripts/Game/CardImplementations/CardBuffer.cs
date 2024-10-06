@@ -33,6 +33,8 @@ public abstract class CardBuffer : GameCard
   protected abstract GameCardStats Modifier(GameCardStats stats, GameCardStats rawStats);
   protected virtual void OnApplied(GameCard to) { }
 
+  private List<GameCard> buffed = new();
+
   private void ApplyBuff(GameCard to)
   {
     if (to.HasStatModifier(Modifier))
@@ -40,12 +42,16 @@ public abstract class CardBuffer : GameCard
       return;
     }
     to.RegisterStatModifier(Modifier);
+    buffed.Add(to);
     OnApplied(to);
   }
 
-  private void RemoveBuff(GameCard from)
+  private void RemoveBuffs()
   {
-    from.RemoveStatModifier(Modifier);
+    foreach (var buff in buffed)
+    {
+      buff.RemoveStatModifier(Modifier);
+    }
   }
 
   private void ComputeBuffs()
@@ -72,14 +78,6 @@ public abstract class CardBuffer : GameCard
     {
       return;
     }
-    var toApply = GetCardsToBuff();
-    foreach (var to in toApply)
-    {
-      if (to == null)
-      {
-        continue;
-      }
-      RemoveBuff(to);
-    }
+    RemoveBuffs();
   }
 }

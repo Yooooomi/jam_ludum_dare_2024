@@ -22,5 +22,10 @@ public class GameBridge
     public GameOnHeroStatChange onHeroStatChange = new();
     public GameOnPlayerDrawCard onPlayerDrawCard = new();
 
-    public static GameBridge instance = new();
+    public static GameBridge instance;
+
+    public static void Initialize()
+    {
+        instance = new();
+    }
 }

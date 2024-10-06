@@ -5,6 +5,7 @@ public class GameState
     public static GameState instance;
     public static void InitGameState(CardsCatalog catalog)
     {
+        GameBridge.Initialize();
         instance = new GameState(catalog);
     }
     public List<GamePlayer> players = new();

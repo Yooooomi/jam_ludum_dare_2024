@@ -171,6 +171,7 @@ public class GameCard
 
     public void RemoveStatModifier(Func<GameCardStats, GameCardStats, GameCardStats> modifier)
     {
+        Debug.Log("Should remove stat modifier");
         var before = GetCardStats();
         modifiers.Remove(modifier);
         GameBridge.instance.onCardStatChange.Invoke(this, GetCardStats().Difference(before));
