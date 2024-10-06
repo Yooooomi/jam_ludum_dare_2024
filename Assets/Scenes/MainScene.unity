@@ -535,25 +535,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 676751229845450361, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
-      propertyPath: cardInfos.Array.data[0].count
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 676751229845450361, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
-      propertyPath: cardInfos.Array.data[1].count
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 2512438239096336722, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
       propertyPath: m_Name
       value: GameState
-      objectReference: {fileID: 0}
-    - target: {fileID: 3581798963302334240, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 3581798963302334240, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8064175033969254900, guid: 703f6e51bbdbf05489dd69d77719a5d4, type: 3}
       propertyPath: m_LocalPosition.x

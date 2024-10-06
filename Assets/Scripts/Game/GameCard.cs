@@ -30,7 +30,7 @@ public class GameCard
     protected GameCardStats stats;
 
     public int playerId;
-    private int lifetime;
+    private int lifetime = 0;
     private int lastLifetimeAttack;
     public CardInfo info;
     public GameBoard board;
@@ -138,11 +138,7 @@ public class GameCard
 
     public bool CanAttack()
     {
-        // if (IsSpectator())
-        // {
-        //     return false;
-        // }
-        return lifetime > 0 && lastLifetimeAttack != lifetime;
+        return lifetime > 0 && lastLifetimeAttack != lifetime && GetCardStats().damage > 0;
     }
 
     public bool HasStatModifier(Func<GameCardStats, GameCardStats, GameCardStats> modifier)

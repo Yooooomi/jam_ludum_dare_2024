@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 7674675819456172239}
   - component: {fileID: 4730836086455897938}
   - component: {fileID: 1431942613742239648}
+  - component: {fileID: 8725018674191548606}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -616,6 +617,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b442b4486413f4512bfee9c634323df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8725018674191548606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7112157544376749150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ca21527bc9d5b40aaca13c06fd3229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshToChangeColor: {fileID: 5322053511466048197}
+  activeMaterial: {fileID: 2100000, guid: a1509a08df265944db7a465a2b890876, type: 2}
+  passiveMaterial: {fileID: 2100000, guid: 884c207c26831304fab5f34f5456ff4b, type: 2}
 --- !u!1 &7176213103274971571
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,6 +966,11 @@ PrefabInstance:
 --- !u!4 &2466014886154241809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1324337331179929231, guid: 5e10912fd6669ac47a4a97e28a1a2f22, type: 3}
+  m_PrefabInstance: {fileID: 3484087022787246494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5322053511466048197 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8755646149857502043, guid: 5e10912fd6669ac47a4a97e28a1a2f22, type: 3}
   m_PrefabInstance: {fileID: 3484087022787246494}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4697311120375189210

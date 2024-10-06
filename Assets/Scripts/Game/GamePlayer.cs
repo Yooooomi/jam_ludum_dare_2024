@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GamePlayer
 {
@@ -17,7 +18,7 @@ public class GamePlayer
         GameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
     }
 
-    public bool Has(GameCard card)
+    public bool HasInHand(GameCard card)
     {
         return hand.Contains(card);
     }
@@ -40,9 +41,14 @@ public class GamePlayer
         stats.mana = stats.maxMana;
     }
 
+    private bool CanConsumeMana(int amount)
+    {
+        return amount <= stats.mana;
+    }
+
     public bool ConsumeMana(int amount)
     {
-        if (amount > stats.mana)
+        if (!CanConsumeMana(amount))
         {
             return false;
         }
@@ -50,9 +56,21 @@ public class GamePlayer
         return true;
     }
 
+    public bool CanPlayCard(GameCard card)
+    {
+        if (board.GetCardTile(card) == null)
+        {
+            return HasInHand(card) && CanConsumeMana(card.GetCardStats().mana);
+        }
+        else
+        {
+            return card.CanAttack();
+        }
+    }
+
     public bool PlayCard(GameBoardTile tile, GameCard card)
     {
-        if (!Has(card))
+        if (!CanPlayCard(card))
         {
             return false;
         }
@@ -60,10 +78,7 @@ public class GamePlayer
         {
             return false;
         }
-        if (!ConsumeMana(card.GetCardStats().mana))
-        {
-            return false;
-        }
+        ConsumeMana(card.GetCardStats().mana);
         board.PlaceCard(tile, card);
         return true;
     }
