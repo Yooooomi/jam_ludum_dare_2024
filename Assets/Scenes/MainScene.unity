@@ -303,14 +303,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1289963688}
     m_Modifications:
-    - target: {fileID: 2453619833331158096, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-      propertyPath: cardInfos.Array.data[0].count
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2453619833331158096, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
-      propertyPath: cardInfos.Array.data[1].count
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3107774166928989778, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.006420453
@@ -354,6 +346,10 @@ PrefabInstance:
     - target: {fileID: 7974235688586872964, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
       propertyPath: m_Name
       value: DeckBuilder (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7974235688586872964, guid: 6dd078034b9b3754cb04013517f68fb3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
