@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -80,12 +81,9 @@ public class GameCard
 
     protected bool LoseHealth(int damage, GameCard from)
     {
-        foreach (var healthAbsorber in healthAbsorbers)
-        {
-            damage -= healthAbsorber(damage);
-        }
-        if (damage <= 0)
-        {
+        var firstHealthAbsorber = healthAbsorbers.FirstOrDefault();
+        if (firstHealthAbsorber != null) {
+            firstHealthAbsorber(damage);
             return false;
         }
         var before = GetCardStats();

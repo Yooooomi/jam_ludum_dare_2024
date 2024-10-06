@@ -15,6 +15,8 @@ public class ManaDisplay : MonoBehaviour
     {
         player = GetComponentInParent<PlayerInstance>();
         DelayedGameBridge.instance.onHeroStatChange.AddListener(OnPlaced);
+        DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnEnd);
+        DelayedGameBridge.instance.onKilled.AddListener(OnKilled);
         baseColor = manaGems[0].sharedMaterial.color;
     }
 
@@ -24,6 +26,11 @@ public class ManaDisplay : MonoBehaviour
     }
 
     private void OnTurnEnd(int playerId)
+    {
+        ComputeMana();
+    }
+
+    private void OnKilled(GameCard card, GameCard from)
     {
         ComputeMana();
     }

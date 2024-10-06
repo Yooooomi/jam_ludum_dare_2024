@@ -16,8 +16,10 @@ public class CardActionabilityDisplay : MonoBehaviour
         DelayedGameBridge.instance.onTurnBegin.AddListener(OnTurnBegin);
         DelayedGameBridge.instance.onPlaced.AddListener(OnPlaced);
         DelayedGameBridge.instance.onAttack.AddListener(OnAttack);
+        DelayedGameBridge.instance.onHeroAttack.AddListener(OnHeroAttack);
         DelayedGameBridge.instance.onCardStatChange.AddListener(OnCardStatChange);
         DelayedGameBridge.instance.onTurnEnd.AddListener(OnTurnBegin);
+        DelayedGameBridge.instance.onKilled.AddListener(OnKilled);
     }
 
     private void Start()
@@ -40,7 +42,17 @@ public class CardActionabilityDisplay : MonoBehaviour
         ComputePlayability();
     }
 
+    private void OnHeroAttack(GameCard card, GamePlayer player)
+    {
+        ComputePlayability();
+    }
+
     private void OnCardStatChange(GameCard card, GameCardStats diff)
+    {
+        ComputePlayability();
+    }
+
+    private void OnKilled(GameCard card, GameCard from)
     {
         ComputePlayability();
     }

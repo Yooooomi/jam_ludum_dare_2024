@@ -8,6 +8,8 @@ public class BulwarkProtector : GameCard
     GameBridge.instance.onKilled.AddListener(OnKilled);
   }
 
+  private readonly List<GameCard> buffed = new();
+
   private int HealthAbsorber(int amount)
   {
     var killed = LoseHealth(amount, this);
@@ -32,18 +34,14 @@ public class BulwarkProtector : GameCard
         continue;
       }
       card.RegisterHealthAbsorber(HealthAbsorber);
+      buffed.Add(card);
     }
   }
 
   private void RemoveHealthAbsorber()
   {
-    var cards = new List<GameCard>() { board.GetLeft(this), board.GetRight(this), board.GetDown(this), board.GetUp(this), };
-    foreach (var card in cards)
+    foreach (var card in buffed)
     {
-      if (card == null)
-      {
-        continue;
-      }
       card.RemoveHealthAbsorber(HealthAbsorber);
     }
   }
