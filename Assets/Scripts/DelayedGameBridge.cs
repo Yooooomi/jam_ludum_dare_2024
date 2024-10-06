@@ -10,6 +10,8 @@ public class DelayedAction
   public int ms;
 }
 
+public class GameOnAll : UnityEvent { }
+
 public class DelayedGameBridge
 {
   public static DelayedGameBridge instance;
@@ -22,6 +24,7 @@ public class DelayedGameBridge
   public GameOnPlayerDrawCard onPlayerDrawCard = new();
   public GameOnHeroAttack onHeroAttack = new();
   public GameOnHeroStatChange onHeroStatChange = new();
+  public GameOnAll onAll = new();
 
 
   private readonly List<DelayedAction> queue = new();
@@ -56,12 +59,20 @@ public class DelayedGameBridge
 
   private void Bind<T>(UnityEvent<T> source, UnityEvent<T> to, int ms)
   {
-    source.AddListener((T arg) => AddToQueue(() => to.Invoke(arg), ms));
+    source.AddListener((T arg) => AddToQueue(() =>
+    {
+      to.Invoke(arg);
+      onAll.Invoke();
+    }, ms));
   }
 
   private void Bind2<T, U>(UnityEvent<T, U> source, UnityEvent<T, U> to, int ms)
   {
-    source.AddListener((T arg, U arg1) => AddToQueue(() => to.Invoke(arg, arg1), ms));
+    source.AddListener((T arg, U arg1) => AddToQueue(() =>
+    {
+      to.Invoke(arg, arg1);
+      onAll.Invoke();
+    }, ms));
   }
 
   public DelayedGameBridge()
